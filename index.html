@@ -3,36 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CJ's Assistant</title>
+<title>Celeste</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0a0b09;
-  --s1: #111210;
-  --s2: #181916;
-  --s3: #1f211d;
-  --border: rgba(255,255,255,0.06);
-  --border2: rgba(255,255,255,0.11);
-  --text: #e4e2db;
-  --text2: #8a887f;
-  --text3: #4a4845;
-  --accent: #1D9E75;
-  --accent-l: #5DCAA5;
-  --accent-dim: rgba(29,158,117,0.12);
-  --accent-b: rgba(29,158,117,0.25);
-  --warn: #BA7517;
-  --warn-dim: rgba(186,117,23,0.12);
-  --warn-b: rgba(186,117,23,0.3);
-  --red: #c44;
-  --red-dim: rgba(200,68,68,0.12);
-  --font: 'DM Sans', sans-serif;
-  --display: 'Syne', sans-serif;
-  --mono: 'DM Mono', monospace;
+  --bg: #0a0b09; --s1: #111210; --s2: #181916; --s3: #1f211d;
+  --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.11);
+  --text: #e4e2db; --text2: #8a887f; --text3: #4a4845;
+  --accent: #1D9E75; --accent-l: #5DCAA5; --accent-dim: rgba(29,158,117,0.12); --accent-b: rgba(29,158,117,0.25);
+  --warn: #BA7517; --warn-dim: rgba(186,117,23,0.12); --warn-b: rgba(186,117,23,0.3);
+  --red: #c44; --red-dim: rgba(200,68,68,0.12);
+  --font: 'DM Sans', sans-serif; --display: 'Syne', sans-serif; --mono: 'DM Mono', monospace;
 }
 html, body { height: 100%; overflow: hidden; font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
 
-/* ── GATE ── */
+/* GATE */
 .gate { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 100; }
 .gate-box { width: 100%; max-width: 400px; padding: 0 20px; animation: fadeUp 0.4s ease both; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
@@ -59,7 +45,7 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
 .div-line { flex: 1; height: 1px; background: var(--border); }
 .div-row span { font-size: 11px; color: var(--text3); }
 
-/* ── DASHBOARD ── */
+/* DASHBOARD */
 #dashboard { display: none; flex-direction: column; height: 100vh; width: 100vw; overflow: hidden; }
 
 /* TOPBAR */
@@ -68,31 +54,32 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
 .tb-logo { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--text); }
 .tb-date { font-size: 12px; color: var(--text3); font-family: var(--mono); }
 .tb-right { display: flex; align-items: center; gap: 8px; }
-
-/* Mode toggle */
 .mode-toggle { display: flex; background: var(--s2); border: 1px solid var(--border2); border-radius: 20px; padding: 2px; gap: 2px; }
 .mode-btn { font-size: 11px; padding: 3px 12px; border-radius: 18px; border: none; background: transparent; color: var(--text3); cursor: pointer; font-family: var(--mono); transition: all 0.15s; }
 .mode-btn.active-p { background: var(--accent-dim); color: var(--accent-l); }
 .mode-btn.active-w { background: var(--warn-dim); color: var(--warn); }
-
-/* Cal filter */
 .cal-filter { display: flex; gap: 3px; }
 .cf-btn { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--text3); cursor: pointer; font-family: var(--mono); transition: all 0.15s; }
 .cf-btn.active { background: var(--accent-dim); color: var(--accent-l); border-color: var(--accent-b); }
 .lbtn { font-size: 11px; color: var(--text3); background: none; border: none; cursor: pointer; font-family: var(--font); text-decoration: underline; }
 .lbtn:hover { color: var(--text2); }
 
+/* NOTIF INDICATOR */
+#notif-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: none; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
 /* CALENDAR */
-#cal-section { flex-shrink: 0; border-bottom: 1px solid var(--border); background: var(--s1); overflow: hidden; }
+#cal-section { flex-shrink: 0; border-bottom: 1px solid var(--border); background: var(--s1); }
 #cal-grid { display: grid; }
 .cal-col { border-right: 1px solid var(--border); padding: 7px 10px; min-width: 0; overflow: hidden; }
 .cal-col:last-child { border-right: none; }
 .cal-day-header { font-size: 10px; color: var(--text3); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
-.cal-day-num { font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--text3); margin-bottom: 5px; line-height: 1; }
-.cal-col.today .cal-day-num { color: var(--accent-l); background: var(--accent-dim); border-radius: 6px; display: inline-block; padding: 1px 7px; margin-left: -7px; }
+.cal-day-num { font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--text3); margin-bottom: 5px; line-height: 1; display: inline-block; }
+.cal-col.today .cal-day-num { color: var(--accent-l); background: var(--accent-dim); border-radius: 6px; padding: 1px 7px; margin-left: -7px; }
 .cal-col.today .cal-day-header { color: var(--accent-l); }
-.cal-event { font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-bottom: 2px; border-left: 2px solid var(--accent); background: var(--accent-dim); color: var(--accent-l); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cal-event.work { border-left-color: var(--warn); background: var(--warn-dim); color: #d4951a; }
+.cal-event { font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-bottom: 2px; border-left: 2px solid var(--accent); background: var(--accent-dim); color: var(--accent-l); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: default; }
+.cal-event.soon { border-left-color: var(--warn); background: var(--warn-dim); color: #d4951a; animation: pulse-warn 2s infinite; }
+@keyframes pulse-warn { 0%,100%{opacity:1} 50%{opacity:0.6} }
 .cal-empty { font-size: 10px; color: var(--text3); font-style: italic; }
 
 /* EMAIL BANNER */
@@ -100,16 +87,19 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
 #email-header { display: flex; align-items: center; gap: 8px; padding: 6px 14px 4px; }
 .email-title { font-size: 10px; color: var(--text3); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
 .email-refresh { font-size: 10px; color: var(--text3); background: none; border: none; cursor: pointer; font-family: var(--mono); text-decoration: underline; padding: 0; }
-.email-refresh:hover { color: var(--text2); }
 #email-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 0 14px 8px; scrollbar-width: none; }
 #email-scroll::-webkit-scrollbar { display: none; }
 .email-card { flex-shrink: 0; width: 240px; background: var(--s1); border: 1px solid var(--border); border-radius: 7px; padding: 8px 10px; cursor: pointer; transition: border-color 0.15s; }
 .email-card:hover { border-color: var(--border2); }
-.email-card.flagged { border-left: 2px solid var(--warn); }
+.email-card.vip { border-left: 2px solid var(--warn); }
+.email-card.program { border-left: 2px solid var(--accent); }
 .email-from { font-size: 11px; font-weight: 500; color: var(--text); margin-bottom: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .email-subj { font-size: 11px; color: var(--text2); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .email-preview { font-size: 10px; color: var(--text3); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.email-tag { font-size: 9px; padding: 1px 6px; border-radius: 10px; display: inline-block; margin-top: 3px; font-family: var(--mono); background: var(--warn-dim); color: var(--warn); border: 1px solid var(--warn-b); }
+.email-tag { font-size: 9px; padding: 1px 6px; border-radius: 10px; display: inline-block; margin-top: 3px; font-family: var(--mono); }
+.email-tag.vip { background: var(--warn-dim); color: var(--warn); border: 1px solid var(--warn-b); }
+.email-tag.program { background: var(--accent-dim); color: var(--accent-l); border: 1px solid var(--accent-b); }
+.email-tag.person { background: var(--s3); color: var(--text2); border: 1px solid var(--border2); }
 .email-loading { font-size: 12px; color: var(--text3); padding: 4px 0; align-self: center; }
 
 /* BOTTOM */
@@ -117,14 +107,14 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
 
 /* TASKS */
 #todo-section { width: 420px; flex-shrink: 0; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--s1); }
-#todo-header { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; gap: 8px; }
+#todo-header { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .section-title { font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--text); }
 .todo-counts { font-size: 11px; color: var(--text3); font-family: var(--mono); }
 #quick-add { display: flex; gap: 6px; padding: 8px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 #quick-inp { flex: 1; background: var(--s2); border: 1px solid var(--border2); border-radius: 6px; padding: 6px 10px; font-family: var(--font); font-size: 12px; color: var(--text); outline: none; transition: border-color 0.15s; }
 #quick-inp:focus { border-color: var(--accent); }
 #quick-inp::placeholder { color: var(--text3); }
-#quick-add-btn { padding: 6px 10px; background: var(--accent-dim); border: 1px solid var(--accent-b); border-radius: 6px; color: var(--accent-l); font-size: 12px; cursor: pointer; font-family: var(--font); transition: all 0.15s; white-space: nowrap; }
+#quick-add-btn { padding: 6px 10px; background: var(--accent-dim); border: 1px solid var(--accent-b); border-radius: 6px; color: var(--accent-l); font-size: 12px; cursor: pointer; font-family: var(--font); white-space: nowrap; transition: all 0.15s; }
 #quick-add-btn:hover { background: var(--accent); color: #fff; }
 #todo-filter { display: flex; gap: 4px; padding: 7px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 .tf-btn { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text3); cursor: pointer; font-family: var(--mono); transition: all 0.15s; }
@@ -134,7 +124,7 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
 #todo-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 .project-group { margin-bottom: 12px; }
 .project-label { font-size: 10px; color: var(--text3); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; padding: 0 4px; }
-.task-item { border-radius: 7px; margin-bottom: 3px; border: 1px solid transparent; transition: all 0.15s; overflow: hidden; }
+.task-item { border-radius: 7px; margin-bottom: 3px; border: 1px solid transparent; transition: all 0.15s; }
 .task-item:hover { background: var(--s2); border-color: var(--border); }
 .task-item.done { opacity: 0.38; }
 .task-main { display: flex; align-items: flex-start; gap: 8px; padding: 7px 8px 4px; }
@@ -145,45 +135,51 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
 .task-body { flex: 1; min-width: 0; }
 .task-text { font-size: 13px; color: var(--text); line-height: 1.4; }
 .task-item.done .task-text { text-decoration: line-through; color: var(--text3); }
-.task-meta { display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+.task-meta { display: flex; align-items: center; gap: 5px; margin-top: 2px; flex-wrap: wrap; }
 .priority-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-.p-high { background: var(--red); }
-.p-med { background: var(--warn); }
-.p-low { background: var(--text3); }
+.p-high { background: var(--red); } .p-med { background: var(--warn); } .p-low { background: var(--text3); }
 .task-proj-tag { font-size: 10px; color: var(--text3); font-family: var(--mono); }
-.task-note-area { padding: 0 8px 6px 30px; }
-.task-note { width: 100%; background: transparent; border: none; border-top: 1px solid var(--border); padding: 4px 0; font-family: var(--font); font-size: 11px; color: var(--text2); outline: none; resize: none; line-height: 1.5; min-height: 0; display: none; }
-.task-note::placeholder { color: var(--text3); }
-.task-note.visible { display: block; }
 .task-note-toggle { font-size: 10px; color: var(--text3); background: none; border: none; cursor: pointer; font-family: var(--mono); padding: 0; transition: color 0.15s; }
 .task-note-toggle:hover { color: var(--text2); }
+.task-note-area { padding: 0 8px 6px 30px; }
+.task-note { width: 100%; background: transparent; border: none; border-top: 1px solid var(--border); padding: 4px 0; font-family: var(--font); font-size: 11px; color: var(--text2); outline: none; resize: none; line-height: 1.5; display: none; }
+.task-note::placeholder { color: var(--text3); }
+.task-note.visible { display: block; }
 .todo-empty { font-size: 13px; color: var(--text3); text-align: center; padding: 28px 16px; line-height: 1.7; }
 
 /* CHAT */
 #chat-section { flex: 1; display: flex; flex-direction: column; background: var(--bg); min-width: 0; }
 #chat-header { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; flex-shrink: 0; background: var(--s1); }
 .chat-av { width: 22px; height: 22px; border-radius: 50%; background: var(--accent-dim); border: 1px solid var(--accent-b); display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--accent-l); font-weight: 500; }
-.chat-status { font-size: 12px; color: var(--text2); }
+.chat-status { font-size: 12px; color: var(--text2); flex: 1; }
+#notif-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: none; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 #messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
 #messages::-webkit-scrollbar { width: 3px; }
 #messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 .msg-row { display: flex; gap: 7px; align-items: flex-start; }
 .msg-row.user { flex-direction: row-reverse; align-self: flex-end; max-width: 84%; }
 .msg-row.ai { max-width: 90%; }
+.msg-row.alert { max-width: 90%; }
 .msg-av { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; flex-shrink: 0; margin-top: 1px; }
 .msg-av.ai { background: var(--accent-dim); color: var(--accent-l); border: 1px solid var(--accent-b); }
 .msg-av.user { background: var(--s3); color: var(--text2); border: 1px solid var(--border2); }
+.msg-av.alert-meet { background: var(--warn-dim); color: var(--warn); border: 1px solid var(--warn-b); }
+.msg-av.alert-email { background: var(--accent-dim); color: var(--accent-l); border: 1px solid var(--accent-b); }
 .msg-bub { padding: 8px 11px; border-radius: 13px; font-size: 13px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
 .msg-row.ai .msg-bub { background: var(--s2); border: 1px solid var(--border); color: var(--text); border-top-left-radius: 3px; }
 .msg-row.user .msg-bub { background: var(--accent); color: #fff; border-top-right-radius: 3px; }
+.msg-row.alert .msg-bub { background: var(--warn-dim); border: 1px solid var(--warn-b); color: var(--text); border-top-left-radius: 3px; }
+.msg-row.alert.email-alert .msg-bub { background: var(--accent-dim); border-color: var(--accent-b); }
 .msg-ts { font-size: 10px; color: var(--text3); font-family: var(--mono); margin-top: 2px; padding: 0 3px; }
 .msg-row.user .msg-ts { text-align: right; }
+.alert-action { display: inline-block; margin-top: 6px; font-size: 11px; color: var(--accent-l); cursor: pointer; text-decoration: underline; font-family: var(--mono); }
 .typing-bub { padding: 9px 13px; display: flex; gap: 4px; align-items: center; }
 .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text3); animation: pulse 1.2s infinite; }
-.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+.dot:nth-child(2){animation-delay:.2s} .dot:nth-child(3){animation-delay:.4s}
 @keyframes pulse{0%,60%,100%{opacity:.3;transform:scale(1)}30%{opacity:1;transform:scale(1.3)}}
 #composer { padding: 9px 11px; border-top: 1px solid var(--border); display: flex; gap: 7px; align-items: flex-end; background: var(--s1); flex-shrink: 0; }
-#msg-inp { flex: 1; resize: none; background: var(--s2); border: 1px solid var(--border2); border-radius: 10px; padding: 8px 11px; font-family: var(--font); font-size: 13px; color: var(--text); outline: none; max-height: 100px; overflow-y: auto; line-height: 1.5; transition: border-color 0.15s; }
+#msg-inp { flex: 1; resize: none; background: var(--s2); border: 1px solid var(--border2); border-radius: 10px; padding: 8px 11px; font-family: var(--font); font-size: 13px; color: var(--text); outline: none; max-height: 200px; overflow-y: auto; line-height: 1.5; transition: border-color 0.15s; }
 #msg-inp:focus { border-color: var(--accent); }
 #msg-inp::placeholder { color: var(--text3); }
 #send-btn { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity 0.15s; }
@@ -197,7 +193,7 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
 <div class="gate" id="gate-key">
   <div class="gate-box">
     <div class="gate-logo">✦</div>
-    <h1>CJ's Assistant</h1>
+    <h1>Celeste</h1>
     <p>Enter your Anthropic API key.<br><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
     <div class="flabel">API key</div>
     <input id="key-inp" class="finp" type="password" placeholder="sk-ant-..." autocomplete="off"/>
@@ -231,11 +227,9 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
 
 <!-- DASHBOARD -->
 <div id="dashboard">
-
-  <!-- TOPBAR -->
   <div id="topbar">
     <div class="tb-left">
-      <span class="tb-logo">CJ</span>
+      <span class="tb-logo">Celeste</span>
       <span class="tb-date" id="tb-date"></span>
     </div>
     <div class="tb-right">
@@ -251,12 +245,8 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
     </div>
   </div>
 
-  <!-- CALENDAR -->
-  <div id="cal-section">
-    <div id="cal-grid"></div>
-  </div>
+  <div id="cal-section"><div id="cal-grid"></div></div>
 
-  <!-- EMAIL BANNER -->
   <div id="email-section">
     <div id="email-header">
       <span class="email-title">Inbox</span>
@@ -265,17 +255,14 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
     <div id="email-scroll"><span class="email-loading">Loading...</span></div>
   </div>
 
-  <!-- BOTTOM -->
   <div id="bottom">
-
-    <!-- TASKS -->
     <div id="todo-section">
       <div id="todo-header">
         <span class="section-title">Tasks</span>
         <span class="todo-counts" id="todo-counts">0 left</span>
       </div>
       <div id="quick-add">
-        <input id="quick-inp" placeholder="Quick add a task..." />
+        <input id="quick-inp" placeholder="Quick add a task..."/>
         <button id="quick-add-btn">+ Add</button>
       </div>
       <div id="todo-filter">
@@ -287,11 +274,11 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
       <div id="todo-list"></div>
     </div>
 
-    <!-- CHAT -->
     <div id="chat-section">
       <div id="chat-header">
-        <div class="chat-av">A</div>
-        <span class="chat-status" id="chat-status">Ready</span>
+        <div class="chat-av">C</div>
+        <span class="chat-status" id="chat-status">Celeste — ready</span>
+        <div id="notif-dot"></div>
       </div>
       <div id="messages"></div>
       <div id="composer">
@@ -299,7 +286,6 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
         <button id="send-btn"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -308,44 +294,58 @@ html, body { height: 100%; overflow: hidden; font-family: var(--font); backgroun
 var PROXY = "https://cjs-pa.cjmitchell292.workers.dev";
 var CLIENT_ID = "887982151932-95rtd5jkk97ua175n9hjvc5gqg10uaoq.apps.googleusercontent.com";
 var SCOPES = "https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/calendar.readonly";
-var SYSTEM = `You are CJ's personal AI assistant embedded in a productivity dashboard.
+
+// ── VIP CONTACTS (work) ──
+var WORK_VIPS = [
+  { name: "DeRay", patterns: ["deray", "deray mckesson", "deray@"], role: "Executive Director" },
+  { name: "Jaren", patterns: ["jaren", "jaren wilkey", "jaren@"], role: "Head of Special Projects" },
+  { name: "Quianna", patterns: ["quianna", "quianna@"], role: "DeRay's assistant" },
+  { name: "Noelle", patterns: ["noelle", "noelle@"], role: "Teammate, Special Projects" },
+  { name: "Kelly", patterns: ["kelly", "kelly@"], role: "Director of Organizing & Advocacy" },
+  { name: "William", patterns: ["william", "william@"], role: "Head of Design & Tech" },
+  { name: "David", patterns: ["david", "david@"], role: "Creative Director" }
+];
+
+// ── CUYAHOGA PROGRAM KEYWORDS ──
+var PROGRAM_KEYWORDS = ["ccjdc", "cuyahoga", "cuyahoga county", "speaker series", "juvenile detention", "the facility", "jdc"];
+
+var SYSTEM = `You are Celeste, CJ's personal AI assistant embedded in a productivity dashboard.
 
 CJ's context:
-- Contractor at Campaign Zero (criminal justice nonprofit), email cj@campaignzero.org. Manager Jaren is on sabbatical; CJ has taken lead on major programs.
+- Contractor at Campaign Zero (criminal justice nonprofit), email cj@campaignzero.org. Manager Jaren (Head of Special Projects) is on sabbatical; CJ has taken lead on major programs.
+- Key work contacts: DeRay (Executive Director), Jaren (Head of Special Projects), Quianna (DeRay's assistant), Noelle (teammate on special projects), Kelly (Director of Organizing & Advocacy), William (Head of Design & Tech), David (Creative Director).
 - Co-founder/CEO of KnoVo (civic tech startup for 2026 midterms). Team: Dan (engineer), Rogan (TikTok/research).
-- Currently wrapping up the Cuyahoga Spring Break Series (5-day speaker program at juvenile detention center).
+- Currently wrapping up Cuyahoga Spring Break Series (5-day speaker program at CCJDC juvenile detention center).
 - Michael O.D. Brown Memorial Scholarship outreach (St. Louis-area high schools).
 - Side idea: pickup basketball app for Chicago.
 - Personal: former college basketball player, boxes, planted 14-gallon aquarium, follows NCAA basketball.
 
-Known projects: Campaign Zero, KnoVo, Cuyahoga Spring Break Series, Michael O.D. Brown Scholarship, Basketball App.
-
-TASK PARSING: When CJ pastes a list of tasks (from Slack, text, etc.), parse them into structured JSON like this:
+TASK PARSING: When CJ pastes a list of tasks, parse them and respond with:
 <tasks>
 [{"text":"task description","project":"Project Name","priority":"high|med|low","today":true|false}]
 </tasks>
-Then give a brief natural language summary of what you parsed and your prioritization reasoning. Assign projects based on context clues. Default project is "General". Priority reasoning: deadlines = high, people waiting = high, KnoVo/CZ programs = high, admin/low stakes = low.
+Then give a brief summary of what you parsed and why you prioritized that way.
 
-PROJECT BRIEFING: When CJ describes a new project, acknowledge it and confirm you've noted it for future prioritization.
+Known projects: Campaign Zero, KnoVo, Cuyahoga Spring Break Series, Michael O.D. Brown Scholarship, Basketball App, General.
+Priority: deadlines = high, key people waiting = high, program logistics = high, admin = low.
 
-For other queries: direct, warm, concise. Under 120 words unless more is asked. When Gmail or Calendar data is injected, use it for specific actionable answers. Reference CJ's world naturally.`;
+For all other messages: direct, warm, concise. Under 120 words unless more is asked. Reference CJ's world naturally.`;
 
-var apiKey = "";
-var tokP = "";
-var tokW = "";
-var mode = "p"; // "p" = personal, "w" = work
-var calView = "week";
-var todoFilter = "all";
-var tasks = [];
-var chatHistory = [];
-var isBusy = false;
+var apiKey = "", tokP = "", tokW = "", mode = "p", calView = "week", todoFilter = "all";
+var tasks = [], chatHistory = [], isBusy = false;
+var notifPermission = false;
+var seenEmailIds = new Set();
+var seenMeetingAlerts = new Set();
+var pollInterval = null;
 
 // ── STORAGE ──
-function saveTasks() { try { localStorage.setItem("cj_tasks_v2", JSON.stringify(tasks)); } catch(e){} }
+function saveTasks() { try { localStorage.setItem("cj_tasks_v3", JSON.stringify(tasks)); } catch(e){} }
 function loadTasks() {
-  try { tasks = JSON.parse(localStorage.getItem("cj_tasks_v2") || "[]"); } catch(e) { tasks = []; }
+  try { tasks = JSON.parse(localStorage.getItem("cj_tasks_v3") || "[]"); } catch(e) { tasks = []; }
   renderTasks();
 }
+function saveSeenIds() { try { localStorage.setItem("cj_seen_emails", JSON.stringify([...seenEmailIds].slice(-200))); } catch(e){} }
+function loadSeenIds() { try { var s = JSON.parse(localStorage.getItem("cj_seen_emails") || "[]"); seenEmailIds = new Set(s); } catch(e){} }
 
 // ── INIT ──
 function init() {
@@ -363,17 +363,13 @@ function showGate(id) {
   document.getElementById("dashboard").style.display = "none";
 }
 
-// ── KEY ──
 document.getElementById("key-btn").addEventListener("click", function() {
   var val = document.getElementById("key-inp").value.trim();
   if (!val || val.length < 10) { document.getElementById("key-inp").style.borderColor = "#c44"; return; }
-  apiKey = val;
-  localStorage.setItem("asst_key", val);
-  showGate("gate-google");
+  apiKey = val; localStorage.setItem("asst_key", val); showGate("gate-google");
 });
-document.getElementById("key-inp").addEventListener("keydown", function(e) { if (e.key === "Enter") document.getElementById("key-btn").click(); });
+document.getElementById("key-inp").addEventListener("keydown", function(e) { if (e.key==="Enter") document.getElementById("key-btn").click(); });
 
-// ── GOOGLE ──
 function doSignIn(which) {
   var hint = which === "w" ? "cj@campaignzero.org" : "cjmitchell292@gmail.com";
   var client = google.accounts.oauth2.initTokenClient({
@@ -394,57 +390,200 @@ document.getElementById("so-btn").addEventListener("click", function() {
   sessionStorage.removeItem("tok_p"); sessionStorage.removeItem("tok_w");
   tokP = ""; tokW = ""; chatHistory = [];
   document.getElementById("messages").innerHTML = "";
+  if (pollInterval) clearInterval(pollInterval);
   showGate("gate-google");
 });
 
-// ── MODE TOGGLE ──
 document.getElementById("mode-p").addEventListener("click", function() { setMode("p"); });
 document.getElementById("mode-w").addEventListener("click", function() { setMode("w"); });
-
 function setMode(m) {
   mode = m;
-  document.getElementById("mode-p").className = "mode-btn" + (m === "p" ? " active-p" : "");
-  document.getElementById("mode-w").className = "mode-btn" + (m === "w" ? " active-w" : "");
-  document.getElementById("chat-status").textContent = m === "p" ? "Personal mode" : "Work mode (CZ)";
-  renderCalendar();
-  loadEmails();
+  document.getElementById("mode-p").className = "mode-btn" + (m==="p" ? " active-p" : "");
+  document.getElementById("mode-w").className = "mode-btn" + (m==="w" ? " active-w" : "");
+  document.getElementById("chat-status").textContent = m==="p" ? "Personal mode" : "Work mode (CZ)";
+  renderCalendar(); loadEmails();
 }
-
 function activeToken() { return mode === "p" ? tokP : tokW; }
 
-// ── LAUNCH ──
 function launchDashboard() {
   document.getElementById("gate-key").style.display = "none";
   document.getElementById("gate-google").style.display = "none";
   document.getElementById("dashboard").style.display = "flex";
-  setTopbarDate();
+  document.getElementById("tb-date").textContent = new Date().toLocaleDateString([], {weekday:"long",month:"long",day:"numeric"});
+  loadSeenIds();
   setMode("p");
   loadTasks();
   if (document.getElementById("messages").children.length === 0) addWelcome();
+  requestNotifPermission();
+  startPolling();
 }
 
-function setTopbarDate() {
-  var d = new Date();
-  document.getElementById("tb-date").textContent = d.toLocaleDateString([], {weekday:"long", month:"long", day:"numeric"});
+// ── NOTIFICATIONS ──
+function requestNotifPermission() {
+  if (!("Notification" in window)) return;
+  if (Notification.permission === "granted") { notifPermission = true; return; }
+  if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(function(p) { notifPermission = p === "granted"; });
+  }
+}
+
+function sendNotif(title, body, onClick) {
+  if (notifPermission && Notification.permission === "granted") {
+    var n = new Notification(title, { body: body, icon: "", silent: false });
+    if (onClick) n.onclick = function() { window.focus(); onClick(); n.close(); };
+  }
+}
+
+// ── POLLING ──
+function startPolling() {
+  if (pollInterval) clearInterval(pollInterval);
+  checkMeetings();
+  checkNewEmails();
+  // Check meetings every 2 min, emails every 3 min
+  var meetingTick = 0;
+  pollInterval = setInterval(function() {
+    meetingTick++;
+    checkMeetings();
+    if (meetingTick % 2 === 0) checkNewEmails();
+  }, 120000);
+}
+
+// ── MEETING ALERTS ──
+async function checkMeetings() {
+  var tok = tokP || tokW;
+  if (!tok) return;
+  var now = new Date();
+  var soon = new Date(now.getTime() + 16 * 60000); // 16 min window
+  var alreadySoon = new Date(now.getTime() + 5 * 60000); // don't re-alert within 5 min
+
+  try {
+    var r = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=" + encodeURIComponent(now.toISOString()) + "&timeMax=" + encodeURIComponent(soon.toISOString()) + "&maxResults=5&singleEvents=true&orderBy=startTime", { headers: { Authorization: "Bearer " + tok } });
+    var d = await r.json();
+    if (!d.items) return;
+    d.items.forEach(function(e) {
+      var alertKey = e.id + "-" + (e.start.dateTime || e.start.date);
+      if (seenMeetingAlerts.has(alertKey)) return;
+      seenMeetingAlerts.add(alertKey);
+
+      var startTime = e.start.dateTime ? new Date(e.start.dateTime) : null;
+      if (!startTime) return;
+      var minsAway = Math.round((startTime - now) / 60000);
+      var timeStr = startTime.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+      var title = e.summary || "Meeting";
+      var alertMsg = "Meeting in " + minsAway + " min: " + title + " at " + timeStr;
+
+      sendNotif("Celeste — Upcoming Meeting", alertMsg, function() {
+        document.getElementById("msg-inp").value = "I have " + title + " in " + minsAway + " minutes. Give me a quick briefing.";
+        document.getElementById("msg-inp").focus();
+      });
+
+      addAlertMsg("meet", "📅 " + alertMsg + "\n\nTap below to get a quick briefing.", function() {
+        document.getElementById("msg-inp").value = "Brief me on my meeting: " + title + " in " + minsAway + " minutes.";
+        handleSend();
+      }, "Brief me on this");
+
+      // Highlight event in calendar
+      renderCalendar();
+    });
+  } catch(e) {}
+}
+
+// ── EMAIL POLLING ──
+async function checkNewEmails() {
+  if (tokW) await checkEmailsForToken(tokW, "work");
+  if (tokP) await checkEmailsForToken(tokP, "personal");
+}
+
+async function checkEmailsForToken(token, accountType) {
+  try {
+    var query = accountType === "work"
+      ? "is:unread newer_than:1d"
+      : "is:unread newer_than:1d -category:promotions -category:updates -category:social -from:noreply -from:no-reply -from:notifications";
+
+    var r = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=10&q=" + encodeURIComponent(query), { headers: { Authorization: "Bearer " + token } });
+    var d = await r.json();
+    if (!d.messages) return;
+
+    for (var i = 0; i < Math.min(d.messages.length, 8); i++) {
+      var m = d.messages[i];
+      if (seenEmailIds.has(m.id)) continue;
+      seenEmailIds.add(m.id);
+
+      var mr = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages/" + m.id + "?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date", { headers: { Authorization: "Bearer " + token } });
+      var md = await mr.json();
+      var h = {}; ((md.payload && md.payload.headers)||[]).forEach(function(x){h[x.name]=x.value;});
+      var from = h.From || "";
+      var subject = h.Subject || "(no subject)";
+      var snippet = decodeHtmlEntities(md.snippet || "");
+      var fromClean = cleanFrom(from);
+      var fromLower = from.toLowerCase();
+      var subjectLower = subject.toLowerCase();
+      var snippetLower = snippet.toLowerCase();
+
+      var alertReason = null;
+      var alertPriority = "normal";
+
+      if (accountType === "work") {
+        // Check VIPs
+        var vipMatch = WORK_VIPS.find(function(v) {
+          return v.patterns.some(function(p) { return fromLower.includes(p); });
+        });
+        if (vipMatch) {
+          alertReason = "Email from " + vipMatch.name + " (" + vipMatch.role + ")";
+          alertPriority = "vip";
+        }
+        // Check Cuyahoga program keywords
+        if (!alertReason) {
+          var programMatch = PROGRAM_KEYWORDS.some(function(kw) {
+            return subjectLower.includes(kw) || snippetLower.includes(kw) || fromLower.includes(kw);
+          });
+          if (programMatch) {
+            alertReason = "Email about Cuyahoga program";
+            alertPriority = "program";
+          }
+        }
+      } else {
+        // Personal: only real people (no automated domains)
+        var automatedDomains = ["noreply","no-reply","notifications","newsletter","mailer","updates","info@","support@","hello@","news@","digest","alert","notification"];
+        var isAutomated = automatedDomains.some(function(d) { return fromLower.includes(d); }) || from.includes("via ");
+        if (!isAutomated) {
+          alertReason = "Personal email from " + fromClean;
+          alertPriority = "person";
+        }
+      }
+
+      if (alertReason) {
+        var notifBody = alertReason + ": \"" + subject + "\"";
+        sendNotif("Celeste — " + alertReason, subject + "\n" + snippet.substring(0,80), function() {
+          window.focus();
+        });
+
+        var msgId = m.id;
+        addAlertMsg("email", "✉️ " + alertReason + "\n\nSubject: " + subject + "\n" + snippet.substring(0,120) + (snippet.length > 120 ? "..." : ""), function() {
+          document.getElementById("msg-inp").value = 'Summarize this email and tell me if I need to respond: from ' + fromClean + ', subject "' + subject + '". Snippet: ' + snippet.substring(0,200);
+          handleSend();
+        }, "Summarize & advise");
+
+        saveSeenIds();
+      }
+    }
+    saveSeenIds();
+  } catch(e) {}
 }
 
 // ── CALENDAR ──
 document.querySelectorAll(".cf-btn").forEach(function(btn) {
   btn.addEventListener("click", function() {
     document.querySelectorAll(".cf-btn").forEach(function(b) { b.classList.remove("active"); });
-    btn.classList.add("active");
-    calView = btn.dataset.view;
-    renderCalendar();
+    btn.classList.add("active"); calView = btn.dataset.view; renderCalendar();
   });
 });
 
 async function renderCalendar() {
   var grid = document.getElementById("cal-grid");
-  grid.innerHTML = '<div style="padding:10px 14px;font-size:11px;color:var(--text3);font-family:var(--mono);">Loading calendar...</div>';
-
+  grid.innerHTML = "";
   var today = new Date();
   var days = [];
-
   if (calView === "day") {
     days = [new Date(today)];
     grid.style.gridTemplateColumns = "1fr";
@@ -452,54 +591,36 @@ async function renderCalendar() {
     var dow = today.getDay();
     var monday = new Date(today);
     monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
-    for (var i = 0; i < 7; i++) {
-      var d = new Date(monday);
-      d.setDate(monday.getDate() + i);
-      days.push(d);
-    }
-    grid.style.gridTemplateColumns = "repeat(7, 1fr)";
+    for (var i = 0; i < 7; i++) { var d = new Date(monday); d.setDate(monday.getDate()+i); days.push(d); }
+    grid.style.gridTemplateColumns = "repeat(7,1fr)";
   }
-
   var tok = activeToken();
-  var events = tok ? await fetchCalEvents(tok, days[0], days[days.length - 1]) : [];
-
-  grid.innerHTML = "";
-  grid.style.display = "grid";
+  var events = tok ? await fetchCalEvents(tok, days[0], days[days.length-1]) : [];
+  var nowMs = Date.now();
 
   days.forEach(function(day) {
-    var col = document.createElement("div");
-    col.className = "cal-col";
-    var isToday = day.toDateString() === today.toDateString();
-    if (isToday) col.classList.add("today");
-
-    var hdr = document.createElement("div"); hdr.className = "cal-day-header";
-    hdr.textContent = day.toLocaleDateString([], {weekday:"short"});
-    var num = document.createElement("div"); num.className = "cal-day-num";
-    num.textContent = day.getDate();
+    var col = document.createElement("div"); col.className = "cal-col";
+    if (day.toDateString() === today.toDateString()) col.classList.add("today");
+    var hdr = document.createElement("div"); hdr.className = "cal-day-header"; hdr.textContent = day.toLocaleDateString([],{weekday:"short"});
+    var num = document.createElement("div"); num.className = "cal-day-num"; num.textContent = day.getDate();
     col.appendChild(hdr); col.appendChild(num);
-
     var dayEvts = events.filter(function(e) {
-      var s = new Date(e.start.dateTime || e.start.date);
-      return s.toDateString() === day.toDateString();
+      return new Date(e.start.dateTime||e.start.date).toDateString() === day.toDateString();
     });
-
-    if (dayEvts.length === 0) {
-      var em = document.createElement("div"); em.className = "cal-empty"; em.textContent = "free";
-      col.appendChild(em);
+    if (!dayEvts.length) {
+      var em = document.createElement("div"); em.className = "cal-empty"; em.textContent = "free"; col.appendChild(em);
     } else {
-      dayEvts.slice(0, 4).forEach(function(e) {
-        var ev = document.createElement("div");
-        ev.className = "cal-event";
-        var t = e.start.dateTime ? new Date(e.start.dateTime).toLocaleTimeString([], {hour:"numeric", minute:"2-digit"}) : "";
-        ev.textContent = (t ? t + " " : "") + (e.summary || "Event");
-        ev.title = e.summary || "Event";
+      dayEvts.slice(0,4).forEach(function(e) {
+        var ev = document.createElement("div"); ev.className = "cal-event";
+        var startMs = e.start.dateTime ? new Date(e.start.dateTime).getTime() : 0;
+        var minsAway = (startMs - nowMs) / 60000;
+        if (minsAway > 0 && minsAway <= 20) ev.classList.add("soon");
+        var t = e.start.dateTime ? new Date(e.start.dateTime).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}) : "";
+        ev.textContent = (t?t+" ":"") + (e.summary||"Event");
+        ev.title = e.summary||"Event";
         col.appendChild(ev);
       });
-      if (dayEvts.length > 4) {
-        var more = document.createElement("div"); more.className = "cal-empty";
-        more.textContent = "+" + (dayEvts.length - 4) + " more";
-        col.appendChild(more);
-      }
+      if (dayEvts.length > 4) { var more = document.createElement("div"); more.className = "cal-empty"; more.textContent = "+"+(dayEvts.length-4)+" more"; col.appendChild(more); }
     }
     grid.appendChild(col);
   });
@@ -507,329 +628,272 @@ async function renderCalendar() {
 
 async function fetchCalEvents(token, start, end) {
   try {
-    var endOfEnd = new Date(end); endOfEnd.setHours(23,59,59);
-    var r = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=" + encodeURIComponent(start.toISOString()) + "&timeMax=" + encodeURIComponent(endOfEnd.toISOString()) + "&maxResults=50&singleEvents=true&orderBy=startTime", { headers: { Authorization: "Bearer " + token } });
-    var d = await r.json();
-    return d.items || [];
+    var endCopy = new Date(end); endCopy.setHours(23,59,59);
+    var r = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin="+encodeURIComponent(start.toISOString())+"&timeMax="+encodeURIComponent(endCopy.toISOString())+"&maxResults=50&singleEvents=true&orderBy=startTime", {headers:{Authorization:"Bearer "+token}});
+    var d = await r.json(); return d.items||[];
   } catch(e) { return []; }
 }
 
-// ── EMAIL ──
+// ── EMAIL BANNER ──
 async function loadEmails() {
   var scroll = document.getElementById("email-scroll");
   scroll.innerHTML = '<span class="email-loading">Loading...</span>';
   var tok = activeToken();
   if (!tok) { scroll.innerHTML = '<span class="email-loading">Connect Google to see email.</span>'; return; }
-  var cards = await fetchEmailCards(tok);
-  if (cards.length === 0) { scroll.innerHTML = '<span class="email-loading">No unread emails.</span>'; return; }
+  var isWork = mode === "w";
+  var cards = await fetchEmailCards(tok, isWork);
+  if (!cards.length) { scroll.innerHTML = '<span class="email-loading">No unread emails.</span>'; return; }
   scroll.innerHTML = "";
   cards.forEach(function(c) {
     var card = document.createElement("div");
-    card.className = "email-card" + (c.flagged ? " flagged" : "");
-    card.innerHTML =
-      '<div class="email-from">' + esc(c.from) + '</div>' +
-      '<div class="email-subj">' + esc(c.subject) + '</div>' +
-      '<div class="email-preview">' + esc(c.snippet) + '</div>' +
-      (c.flagged ? '<span class="email-tag">needs reply</span>' : '');
+    card.className = "email-card" + (c.type==="vip" ? " vip" : c.type==="program" ? " program" : "");
+    card.innerHTML = '<div class="email-from">'+esc(c.from)+'</div><div class="email-subj">'+esc(c.subject)+'</div><div class="email-preview">'+esc(c.snippet)+'</div>' + (c.type ? '<span class="email-tag '+c.type+'">'+(c.type==="vip"?"key contact":c.type==="program"?"cuyahoga":"person")+'</span>' : '');
     card.addEventListener("click", function() {
-      document.getElementById("msg-inp").value = 'Help me with this email — subject: "' + c.subject + '" from ' + c.from + '. Snippet: ' + c.snippet.substring(0,120);
+      document.getElementById("msg-inp").value = 'Help me with this email — from '+c.from+', subject: "'+c.subject+'". Here\'s a preview: '+c.snippet.substring(0,150);
       document.getElementById("msg-inp").focus();
     });
     scroll.appendChild(card);
   });
 }
 
-async function fetchEmailCards(token) {
+async function fetchEmailCards(token, isWork) {
   try {
-    // Filter out newsletters/promos, get person-to-person first
-    var r = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=15&q=is:unread -category:promotions -category:updates -category:social", { headers: { Authorization: "Bearer " + token } });
+    var query = isWork
+      ? "is:unread -category:promotions -category:updates"
+      : "is:unread -category:promotions -category:updates -category:social -from:noreply -from:no-reply";
+    var r = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=15&q="+encodeURIComponent(query), {headers:{Authorization:"Bearer "+token}});
     var d = await r.json();
-    if (!d.messages || !d.messages.length) return [];
-    var cards = await Promise.all(d.messages.slice(0,8).map(async function(m) {
-      var mr = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages/" + m.id + "?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date", { headers: { Authorization: "Bearer " + token } });
+    if (!d.messages) return [];
+    var cards = await Promise.all(d.messages.slice(0,10).map(async function(m) {
+      var mr = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages/"+m.id+"?format=metadata&metadataHeaders=From&metadataHeaders=Subject", {headers:{Authorization:"Bearer "+token}});
       var md = await mr.json();
-      var h = {}; ((md.payload && md.payload.headers)||[]).forEach(function(x){h[x.name]=x.value;});
-      var snippet = decodeHtmlEntities(md.snippet || "");
-      // Flag as needs reply: thread-like subjects or has been read before (heuristic)
-      var subj = h.Subject || "";
-      var flagged = /^(Re:|Fwd:|RE:|FW:)/i.test(subj) || snippet.toLowerCase().includes("waiting") || snippet.toLowerCase().includes("let me know") || snippet.toLowerCase().includes("can you");
-      return { from: cleanFrom(h.From || "?"), subject: subj || "(no subject)", snippet: snippet, flagged: flagged };
+      var h={}; ((md.payload&&md.payload.headers)||[]).forEach(function(x){h[x.name]=x.value;});
+      var from = h.From||"", fromLower = from.toLowerCase();
+      var subject = h.Subject||"(no subject)", subjectLower = subject.toLowerCase();
+      var snippet = decodeHtmlEntities(md.snippet||"");
+      var type = null;
+      if (isWork) {
+        var vip = WORK_VIPS.find(function(v){return v.patterns.some(function(p){return fromLower.includes(p);});});
+        if (vip) type = "vip";
+        else if (PROGRAM_KEYWORDS.some(function(kw){return subjectLower.includes(kw)||snippet.toLowerCase().includes(kw);})) type = "program";
+      } else {
+        var auto = ["noreply","no-reply","notifications","newsletter","mailer","updates","hello@","news@","digest","alert","notification","info@","support@"].some(function(d){return fromLower.includes(d);});
+        if (!auto) type = "person";
+      }
+      return { from: cleanFrom(from), subject: subject, snippet: snippet, type: type };
     }));
-    return cards;
+    // Sort: vip first, then program, then person, then null
+    var order = {vip:0, program:1, person:2};
+    return cards.filter(function(c){return isWork || c.type==="person";}).sort(function(a,b){return (order[a.type]??9)-(order[b.type]??9);});
   } catch(e) { return []; }
 }
 
 document.getElementById("email-refresh-btn").addEventListener("click", loadEmails);
 
-function cleanFrom(from) {
-  var m = from.match(/^"?([^"<]+)"?\s*</);
-  return m ? m[1].trim() : from.replace(/<[^>]+>/, "").trim();
-}
-function decodeHtmlEntities(str) {
-  var txt = document.createElement("textarea");
-  txt.innerHTML = str;
-  return txt.value;
-}
+function cleanFrom(f) { var m=f.match(/^"?([^"<]+)"?\s*</); return m?m[1].trim():f.replace(/<[^>]+>/,"").trim(); }
+function decodeHtmlEntities(s) { var t=document.createElement("textarea"); t.innerHTML=s; return t.value; }
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
 // ── TASKS ──
 function renderTasks() {
-  var list = document.getElementById("todo-list");
-  list.innerHTML = "";
-
+  var list = document.getElementById("todo-list"); list.innerHTML = "";
   var filtered = tasks.filter(function(t) {
-    if (todoFilter === "today") return t.today && !t.done;
-    if (todoFilter === "high") return t.priority === "high" && !t.done;
-    if (todoFilter === "done") return t.done;
-    return !t.done || todoFilter === "all";
+    if (todoFilter==="today") return t.today && !t.done;
+    if (todoFilter==="high") return t.priority==="high" && !t.done;
+    if (todoFilter==="done") return t.done;
+    return !t.done;
   });
-
-  var openCount = tasks.filter(function(t) { return !t.done; }).length;
-  document.getElementById("todo-counts").textContent = openCount + " left";
-
-  if (filtered.length === 0) {
-    list.innerHTML = '<div class="todo-empty">No tasks here.\nPaste a list in chat and I\'ll organize it.</div>';
-    return;
-  }
-
-  var groups = {};
-  filtered.forEach(function(t) {
-    var p = t.project || "General";
-    if (!groups[p]) groups[p] = [];
-    groups[p].push(t);
-  });
-
-  var order = ["Campaign Zero","KnoVo","Cuyahoga Spring Break Series","Michael O.D. Brown Scholarship","General"];
-  var keys = Object.keys(groups).sort(function(a,b) {
-    var ai = order.indexOf(a), bi = order.indexOf(b);
-    return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
-  });
-
-  var pOrd = {high:0,med:1,low:2};
-  keys.forEach(function(proj) {
-    var grp = document.createElement("div"); grp.className = "project-group";
-    var lbl = document.createElement("div"); lbl.className = "project-label"; lbl.textContent = proj;
-    grp.appendChild(lbl);
-
-    groups[proj].sort(function(a,b) { return (pOrd[a.priority]||1)-(pOrd[b.priority]||1); });
-
-    groups[proj].forEach(function(task) {
-      var item = document.createElement("div");
-      item.className = "task-item" + (task.done ? " done" : "");
-
-      // Main row
-      var main = document.createElement("div"); main.className = "task-main";
-      var cb = document.createElement("div");
-      cb.className = "task-cb" + (task.done ? " checked" : "");
-      cb.addEventListener("click", function(e) { e.stopPropagation(); task.done = !task.done; saveTasks(); renderTasks(); });
-
-      var body = document.createElement("div"); body.className = "task-body";
-      var txt = document.createElement("div"); txt.className = "task-text"; txt.textContent = task.text;
-      var meta = document.createElement("div"); meta.className = "task-meta";
-      var dot = document.createElement("div"); dot.className = "priority-dot p-" + (task.priority || "low");
-      var tag = document.createElement("span"); tag.className = "task-proj-tag"; tag.textContent = task.priority || "low";
-
-      // Note toggle
-      var noteToggle = document.createElement("button"); noteToggle.className = "task-note-toggle";
-      noteToggle.textContent = task.note ? "note ▾" : "+ note";
-
-      meta.appendChild(dot); meta.appendChild(tag); meta.appendChild(noteToggle);
+  var open = tasks.filter(function(t){return !t.done;}).length;
+  document.getElementById("todo-counts").textContent = open + " left";
+  if (!filtered.length) { list.innerHTML='<div class="todo-empty">No tasks here.\nPaste a list in chat and I\'ll organize it.</div>'; return; }
+  var groups={};
+  filtered.forEach(function(t){var p=t.project||"General"; if(!groups[p])groups[p]=[]; groups[p].push(t);});
+  var order=["Campaign Zero","KnoVo","Cuyahoga Spring Break Series","Michael O.D. Brown Scholarship","General"];
+  Object.keys(groups).sort(function(a,b){var ai=order.indexOf(a),bi=order.indexOf(b);return(ai<0?99:ai)-(bi<0?99:bi);}).forEach(function(proj){
+    var grp=document.createElement("div"); grp.className="project-group";
+    var lbl=document.createElement("div"); lbl.className="project-label"; lbl.textContent=proj; grp.appendChild(lbl);
+    var pOrd={high:0,med:1,low:2};
+    groups[proj].sort(function(a,b){return(pOrd[a.priority]||1)-(pOrd[b.priority]||1);}).forEach(function(task){
+      var item=document.createElement("div"); item.className="task-item"+(task.done?" done":"");
+      var main=document.createElement("div"); main.className="task-main";
+      var cb=document.createElement("div"); cb.className="task-cb"+(task.done?" checked":"");
+      cb.addEventListener("click",function(e){e.stopPropagation();task.done=!task.done;saveTasks();renderTasks();});
+      var body=document.createElement("div"); body.className="task-body";
+      var txt=document.createElement("div"); txt.className="task-text"; txt.textContent=task.text;
+      var meta=document.createElement("div"); meta.className="task-meta";
+      var dot=document.createElement("div"); dot.className="priority-dot p-"+(task.priority||"low");
+      var tag=document.createElement("span"); tag.className="task-proj-tag"; tag.textContent=task.priority||"low";
+      var ntog=document.createElement("button"); ntog.className="task-note-toggle"; ntog.textContent=task.note?"note ▾":"+ note";
+      meta.appendChild(dot); meta.appendChild(tag); meta.appendChild(ntog);
       body.appendChild(txt); body.appendChild(meta);
-      main.appendChild(cb); main.appendChild(body);
-      item.appendChild(main);
-
-      // Note area
-      var noteArea = document.createElement("div"); noteArea.className = "task-note-area";
-      var noteInp = document.createElement("textarea");
-      noteInp.className = "task-note" + (task.note ? " visible" : "");
-      noteInp.placeholder = "Add notes...";
-      noteInp.value = task.note || "";
-      noteInp.rows = 2;
-      noteInp.addEventListener("input", function() { task.note = noteInp.value; saveTasks(); });
-      noteArea.appendChild(noteInp);
-      item.appendChild(noteArea);
-
-      noteToggle.addEventListener("click", function(e) {
+      main.appendChild(cb); main.appendChild(body); item.appendChild(main);
+      var narea=document.createElement("div"); narea.className="task-note-area";
+      var ninp=document.createElement("textarea"); ninp.className="task-note"+(task.note?" visible":"");
+      ninp.placeholder="Add notes..."; ninp.value=task.note||""; ninp.rows=2;
+      ninp.addEventListener("input",function(){task.note=ninp.value;saveTasks();});
+      narea.appendChild(ninp); item.appendChild(narea);
+      ntog.addEventListener("click",function(e){
         e.stopPropagation();
-        var visible = noteInp.classList.toggle("visible");
-        noteToggle.textContent = visible ? "note ▴" : (task.note ? "note ▾" : "+ note");
-        if (visible) noteInp.focus();
+        var v=ninp.classList.toggle("visible");
+        ntog.textContent=v?"note ▴":(task.note?"note ▾":"+ note");
+        if(v)ninp.focus();
       });
-
       grp.appendChild(item);
     });
     list.appendChild(grp);
   });
 }
 
-document.querySelectorAll(".tf-btn").forEach(function(btn) {
-  btn.addEventListener("click", function() {
-    document.querySelectorAll(".tf-btn").forEach(function(b) { b.classList.remove("active"); });
-    btn.classList.add("active");
-    todoFilter = btn.dataset.f;
-    renderTasks();
+document.querySelectorAll(".tf-btn").forEach(function(btn){
+  btn.addEventListener("click",function(){
+    document.querySelectorAll(".tf-btn").forEach(function(b){b.classList.remove("active");});
+    btn.classList.add("active"); todoFilter=btn.dataset.f; renderTasks();
   });
 });
 
-// Quick add
-document.getElementById("quick-add-btn").addEventListener("click", quickAdd);
-document.getElementById("quick-inp").addEventListener("keydown", function(e) { if (e.key === "Enter") quickAdd(); });
-function quickAdd() {
-  var inp = document.getElementById("quick-inp");
-  var val = inp.value.trim();
-  if (!val) return;
-  tasks.push({ id: Date.now(), text: val, project: "General", priority: "med", today: false, done: false, note: "", created: new Date().toISOString() });
-  saveTasks(); renderTasks();
-  inp.value = "";
+document.getElementById("quick-add-btn").addEventListener("click",quickAdd);
+document.getElementById("quick-inp").addEventListener("keydown",function(e){if(e.key==="Enter")quickAdd();});
+function quickAdd(){
+  var inp=document.getElementById("quick-inp"),val=inp.value.trim();
+  if(!val)return;
+  tasks.push({id:Date.now(),text:val,project:"General",priority:"med",today:false,done:false,note:"",created:new Date().toISOString()});
+  saveTasks();renderTasks();inp.value="";
 }
 
-function addTasksFromJSON(arr) {
-  arr.forEach(function(t) {
-    tasks.push({ id: Date.now() + Math.random(), text: t.text, project: t.project || "General", priority: t.priority || "low", today: t.today || false, done: false, note: "", created: new Date().toISOString() });
+function addTasksFromJSON(arr){
+  arr.forEach(function(t){
+    tasks.push({id:Date.now()+Math.random(),text:t.text,project:t.project||"General",priority:t.priority||"low",today:t.today||false,done:false,note:"",created:new Date().toISOString()});
   });
-  saveTasks(); renderTasks();
+  saveTasks();renderTasks();
 }
 
 // ── CHAT ──
-function timeStr() { return new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"}); }
+function timeStr(){return new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit"});}
 
-function addAiMsg(text) {
-  var msgs = document.getElementById("messages");
-  var row = document.createElement("div"); row.className = "msg-row ai";
-  var av = document.createElement("div"); av.className = "msg-av ai"; av.textContent = "A";
-  var wrap = document.createElement("div");
-  var bub = document.createElement("div"); bub.className = "msg-bub"; bub.textContent = text;
-  var ts = document.createElement("div"); ts.className = "msg-ts"; ts.textContent = timeStr();
-  wrap.appendChild(bub); wrap.appendChild(ts);
-  row.appendChild(av); row.appendChild(wrap);
-  msgs.appendChild(row);
-  msgs.scrollTop = msgs.scrollHeight;
+function addAiMsg(text){
+  var msgs=document.getElementById("messages");
+  var row=document.createElement("div");row.className="msg-row ai";
+  var av=document.createElement("div");av.className="msg-av ai";av.textContent="C";
+  var wrap=document.createElement("div");
+  var bub=document.createElement("div");bub.className="msg-bub";bub.textContent=text;
+  var ts=document.createElement("div");ts.className="msg-ts";ts.textContent=timeStr();
+  wrap.appendChild(bub);wrap.appendChild(ts);row.appendChild(av);row.appendChild(wrap);
+  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
 }
 
-function addUserMsg(text) {
-  var msgs = document.getElementById("messages");
-  var row = document.createElement("div"); row.className = "msg-row user";
-  var av = document.createElement("div"); av.className = "msg-av user"; av.textContent = "CJ";
-  var wrap = document.createElement("div");
-  var bub = document.createElement("div"); bub.className = "msg-bub"; bub.textContent = text;
-  var ts = document.createElement("div"); ts.className = "msg-ts"; ts.textContent = timeStr();
-  wrap.appendChild(bub); wrap.appendChild(ts);
-  row.appendChild(av); row.appendChild(wrap);
-  msgs.appendChild(row);
-  msgs.scrollTop = msgs.scrollHeight;
+function addUserMsg(text){
+  var msgs=document.getElementById("messages");
+  var row=document.createElement("div");row.className="msg-row user";
+  var av=document.createElement("div");av.className="msg-av user";av.textContent="CJ";
+  var wrap=document.createElement("div");
+  var bub=document.createElement("div");bub.className="msg-bub";bub.textContent=text;
+  var ts=document.createElement("div");ts.className="msg-ts";ts.textContent=timeStr();
+  wrap.appendChild(bub);wrap.appendChild(ts);row.appendChild(av);row.appendChild(wrap);
+  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
 }
 
-function showTyping() {
-  var msgs = document.getElementById("messages");
-  var row = document.createElement("div"); row.className = "msg-row ai"; row.id = "typing-row";
-  row.innerHTML = '<div class="msg-av ai">A</div><div class="msg-bub typing-bub"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
-  msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
+function addAlertMsg(type, text, actionFn, actionLabel){
+  var msgs=document.getElementById("messages");
+  var row=document.createElement("div");
+  row.className="msg-row alert"+(type==="email"?" email-alert":"");
+  var av=document.createElement("div");
+  av.className="msg-av"+(type==="email"?" alert-email":" alert-meet");
+  av.textContent=type==="email"?"✉":"📅";
+  var wrap=document.createElement("div");
+  var bub=document.createElement("div");bub.className="msg-bub";bub.textContent=text;
+  if(actionFn){
+    var act=document.createElement("div");act.className="alert-action";act.textContent=actionLabel+" →";
+    act.addEventListener("click",actionFn);bub.appendChild(act);
+  }
+  var ts=document.createElement("div");ts.className="msg-ts";ts.textContent=timeStr();
+  wrap.appendChild(bub);wrap.appendChild(ts);row.appendChild(av);row.appendChild(wrap);
+  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
+  // Show notif dot
+  document.getElementById("notif-dot").style.display="block";
+  setTimeout(function(){document.getElementById("notif-dot").style.display="none";},10000);
 }
-function hideTyping() { var t = document.getElementById("typing-row"); if (t) t.remove(); }
 
-function addWelcome() {
-  var h = new Date().getHours();
-  var g = h < 12 ? "Good morning" : h < 17 ? "Hey" : "Evening";
-  var connected = tokP || tokW;
-  addAiMsg(g + ", CJ.\n\n" + (connected ? "Calendar and email are live. " : "") + "Paste a task list from Slack or text and I'll sort it by project and priority. Or brief me on a project and I'll help you manage it.");
+function showTyping(){
+  var msgs=document.getElementById("messages");
+  var row=document.createElement("div");row.className="msg-row ai";row.id="typing-row";
+  row.innerHTML='<div class="msg-av ai">A</div><div class="msg-bub typing-bub"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
+}
+function hideTyping(){var t=document.getElementById("typing-row");if(t)t.remove();}
+
+function addWelcome(){
+  var h=new Date().getHours(),g=h<12?"Good morning":h<17?"Hey":"Evening";
+  var c=tokP||tokW;
+  addAiMsg(g+", CJ — I'm Celeste.\n\n"+(c?"Your calendar and email are live. I'll let you know when key people reach out or a meeting is coming up. ":"")+"Paste a task list from Slack or text and I'll organize it by project and priority.");
 }
 
 // ── SEND ──
-document.getElementById("send-btn").addEventListener("click", handleSend);
-document.getElementById("msg-inp").addEventListener("keydown", function(e) {
-  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
+document.getElementById("send-btn").addEventListener("click",handleSend);
+document.getElementById("msg-inp").addEventListener("keydown",function(e){
+  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();handleSend();}
 });
-document.getElementById("msg-inp").addEventListener("input", function() {
-  this.style.height = "auto";
-  this.style.height = Math.min(this.scrollHeight, 100) + "px";
+document.getElementById("msg-inp").addEventListener("input",function(){
+  this.style.height="auto";this.style.height=Math.min(this.scrollHeight,100)+"px";
 });
 
-async function handleSend() {
-  var inp = document.getElementById("msg-inp");
-  var text = inp.value.trim();
-  if (!text || isBusy) return;
-  isBusy = true;
-  inp.value = ""; inp.style.height = "auto";
-  addUserMsg(text);
-  chatHistory.push({role:"user", content:text});
-  showTyping();
+async function handleSend(){
+  var inp=document.getElementById("msg-inp"),text=inp.value.trim();
+  if(!text||isBusy)return;
+  isBusy=true;inp.value="";inp.style.height="auto";
+  addUserMsg(text);chatHistory.push({role:"user",content:text});showTyping();
 
-  var wantsEmail = /email|gmail|inbox|unread|message/i.test(text);
-  var wantsCal = /calendar|schedule|event|today|tomorrow|week|meeting|upcoming/i.test(text);
-  var ctx = [];
-  var tok = activeToken();
-  var modeLabel = mode === "p" ? "Personal" : "Work (CZ)";
+  var wantsEmail=/email|gmail|inbox|unread|message/i.test(text);
+  var wantsCal=/calendar|schedule|event|today|tomorrow|week|meeting|upcoming/i.test(text);
+  var ctx=[];var tok=activeToken();var modeLabel=mode==="p"?"Personal":"Work (CZ)";
+  if(wantsEmail&&tok)ctx.push(await getGmailText(tok,modeLabel));
+  if(wantsCal&&tok)ctx.push(await getCalText(tok,modeLabel));
+  var open=tasks.filter(function(t){return!t.done;});
+  if(open.length&&/urgent|priorit|focus|today|should i|what.*do/i.test(text))
+    ctx.push("Open tasks:\n"+open.map(function(t){return"  ["+t.priority+"] "+t.text+" ("+t.project+")"+(t.note?" — "+t.note:"");}).join("\n"));
 
-  if (wantsEmail && tok) ctx.push(await getGmailText(tok, modeLabel));
-  if (wantsCal && tok) ctx.push(await getCalText(tok, modeLabel));
+  var messages=chatHistory.slice();
+  if(ctx.length)messages[messages.length-1]={role:"user",content:text+"\n\n[Context — "+modeLabel+"]\n"+ctx.join("\n\n")};
 
-  var activeTasks = tasks.filter(function(t) { return !t.done; });
-  if (activeTasks.length > 0 && /urgent|priorit|focus|today|should i|what.*do/i.test(text)) {
-    ctx.push("Open tasks:\n" + activeTasks.map(function(t) { return "  [" + t.priority + "] " + t.text + " (" + t.project + ")" + (t.note ? " — note: " + t.note : ""); }).join("\n"));
-  }
-
-  var messages = chatHistory.slice();
-  if (ctx.length > 0) {
-    messages[messages.length - 1] = {role:"user", content: text + "\n\n[Context — " + modeLabel + " mode]\n" + ctx.join("\n\n")};
-  }
-
-  try {
-    var res = await fetch(PROXY, {
-      method: "POST",
-      headers: {"Content-Type":"application/json","x-api-key":apiKey},
-      body: JSON.stringify({model:"claude-sonnet-4-20250514", max_tokens:1000, system:SYSTEM, messages:messages})
-    });
-    var data = await res.json();
-    hideTyping();
-    if (data.error) {
-      addAiMsg("Error: " + data.error.message);
-    } else {
-      var raw = (data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("\n").trim();
-      var taskMatch = raw.match(/<tasks>([\s\S]*?)<\/tasks>/);
-      if (taskMatch) {
-        try { addTasksFromJSON(JSON.parse(taskMatch[1].trim())); } catch(e){}
-        var display = raw.replace(/<tasks>[\s\S]*?<\/tasks>/, "").trim();
-        if (display) addAiMsg(display);
-      } else {
-        addAiMsg(raw);
-      }
-      chatHistory.push({role:"assistant", content:raw});
+  try{
+    var res=await fetch(PROXY,{method:"POST",headers:{"Content-Type":"application/json","x-api-key":apiKey},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:SYSTEM,messages:messages})});
+    var data=await res.json();hideTyping();
+    if(data.error){addAiMsg("Error: "+data.error.message);}
+    else{
+      var raw=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("\n").trim();
+      var tm=raw.match(/<tasks>([\s\S]*?)<\/tasks>/);
+      if(tm){try{addTasksFromJSON(JSON.parse(tm[1].trim()));}catch(e){}
+        var disp=raw.replace(/<tasks>[\s\S]*?<\/tasks>/,"").trim();if(disp)addAiMsg(disp);}
+      else addAiMsg(raw);
+      chatHistory.push({role:"assistant",content:raw});
     }
-  } catch(e) {
-    hideTyping();
-    addAiMsg("Couldn't reach the API: " + e.message);
-  }
-  isBusy = false;
+  }catch(e){hideTyping();addAiMsg("Couldn't reach the API: "+e.message);}
+  isBusy=false;
 }
 
-async function getGmailText(token, label) {
-  try {
-    var r = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=6&q=is:unread -category:promotions", {headers:{Authorization:"Bearer "+token}});
-    var d = await r.json();
-    if (!d.messages || !d.messages.length) return label + " Gmail: no unread.";
-    var items = await Promise.all(d.messages.slice(0,5).map(async function(m) {
-      var mr = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages/"+m.id+"?format=metadata&metadataHeaders=From&metadataHeaders=Subject", {headers:{Authorization:"Bearer "+token}});
-      var md = await mr.json();
-      var h = {}; ((md.payload&&md.payload.headers)||[]).forEach(function(x){h[x.name]=x.value;});
-      return "  - " + (h.Subject||"(no subject)") + " from " + cleanFrom(h.From||"?");
+async function getGmailText(token,label){
+  try{
+    var r=await fetch("https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=6&q=is:unread -category:promotions",{headers:{Authorization:"Bearer "+token}});
+    var d=await r.json();if(!d.messages||!d.messages.length)return label+" Gmail: no unread.";
+    var items=await Promise.all(d.messages.slice(0,5).map(async function(m){
+      var mr=await fetch("https://www.googleapis.com/gmail/v1/users/me/messages/"+m.id+"?format=metadata&metadataHeaders=From&metadataHeaders=Subject",{headers:{Authorization:"Bearer "+token}});
+      var md=await mr.json();var h={};((md.payload&&md.payload.headers)||[]).forEach(function(x){h[x.name]=x.value;});
+      return"  - "+(h.Subject||"(no subject)")+" from "+cleanFrom(h.From||"?");
     }));
-    return label + " unread:\n" + items.join("\n");
-  } catch(e) { return label + ": error."; }
+    return label+" unread:\n"+items.join("\n");
+  }catch(e){return label+": error.";}
 }
 
-async function getCalText(token, label) {
-  try {
-    var now = new Date().toISOString();
-    var end = new Date(Date.now()+7*86400000).toISOString();
-    var r = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin="+encodeURIComponent(now)+"&timeMax="+encodeURIComponent(end)+"&maxResults=10&singleEvents=true&orderBy=startTime", {headers:{Authorization:"Bearer "+token}});
-    var d = await r.json();
-    if (!d.items||!d.items.length) return label + " calendar: nothing this week.";
-    return label + " calendar:\n" + d.items.map(function(e) {
+async function getCalText(token,label){
+  try{
+    var now=new Date().toISOString(),end=new Date(Date.now()+7*86400000).toISOString();
+    var r=await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin="+encodeURIComponent(now)+"&timeMax="+encodeURIComponent(end)+"&maxResults=10&singleEvents=true&orderBy=startTime",{headers:{Authorization:"Bearer "+token}});
+    var d=await r.json();if(!d.items||!d.items.length)return label+" calendar: nothing this week.";
+    return label+" calendar:\n"+d.items.map(function(e){
       var s=(e.start&&(e.start.dateTime||e.start.date))||"";
       var ds=s?new Date(s).toLocaleString([],{weekday:"short",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"All day";
-      return "  - "+ds+": "+(e.summary||"(no title)");
+      return"  - "+ds+": "+(e.summary||"(no title)");
     }).join("\n");
-  } catch(e) { return label + ": error."; }
+  }catch(e){return label+": error.";}
 }
 
 init();
