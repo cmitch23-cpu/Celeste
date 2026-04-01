@@ -323,7 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function saveKey() {
   const val = document.getElementById("key-input").value.trim();
-  if (!val.startsWith("sk-")) {
+  if (!val || val.length < 20) {
     document.getElementById("key-input").style.borderColor = "#E24B4A";
     return;
   }
@@ -333,7 +333,6 @@ function saveKey() {
 }
 
 // --- GOOGLE OAUTH ---
-let googleTokenWork = null;
 
 function signInWithGoogle(which) {
   const hint = which === 'work' ? 'cj@campaignzero.org' : 'cjmitchell292@gmail.com';
