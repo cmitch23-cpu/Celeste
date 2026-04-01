@@ -20,9 +20,6 @@
   --accent-light: #5DCAA5;
   --accent-dim: rgba(29,158,117,0.15);
   --accent-border: rgba(29,158,117,0.3);
-  --warn: #BA7517;
-  --warn-dim: rgba(186,117,23,0.15);
-  --warn-border: rgba(186,117,23,0.3);
   --font: 'DM Sans', sans-serif;
   --mono: 'DM Mono', monospace;
   --radius: 14px;
@@ -30,577 +27,394 @@
 }
 html, body { height: 100%; font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
 body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 16px; }
-
-/* SCREENS */
-.screen { width: 100%; max-width: 440px; animation: fadeUp 0.35s ease both; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-
-.logo {
-  width: 48px; height: 48px; border-radius: 50%;
-  background: var(--accent-dim); border: 1px solid var(--accent-border);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 24px; font-size: 22px;
-}
+.screen { width: 100%; max-width: 420px; animation: fadeUp 0.35s ease both; }
+.logo { width: 48px; height: 48px; border-radius: 50%; background: var(--accent-dim); border: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 22px; }
 .screen h1 { font-size: 22px; font-weight: 500; margin-bottom: 8px; text-align: center; }
-.screen p { font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 24px; text-align: center; }
-.screen p a { color: var(--accent-light); text-decoration: none; }
-
+.sub { font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 24px; text-align: center; }
+.sub a { color: var(--accent-light); text-decoration: none; }
 .field-label { font-size: 12px; color: var(--text3); margin-bottom: 6px; font-family: var(--mono); }
-.inp-field {
-  width: 100%; background: var(--surface);
-  border: 1px solid var(--border2); border-radius: var(--radius-sm);
-  padding: 12px 16px; font-family: var(--mono); font-size: 13px;
-  color: var(--text); outline: none; margin-bottom: 12px; transition: border-color 0.15s;
-}
-.inp-field:focus { border-color: var(--accent); }
-.inp-field::placeholder { color: var(--text3); }
-
-.btn-primary {
-  width: 100%; padding: 12px; background: var(--accent); color: #fff;
-  border: none; border-radius: var(--radius-sm); font-family: var(--font);
-  font-size: 14px; font-weight: 500; cursor: pointer; transition: opacity 0.15s; margin-bottom: 10px;
-}
+.inp { width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 12px 16px; font-family: var(--mono); font-size: 13px; color: var(--text); outline: none; margin-bottom: 12px; transition: border-color 0.15s; }
+.inp:focus { border-color: var(--accent); }
+.inp::placeholder { color: var(--text3); }
+.btn-primary { width: 100%; padding: 12px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); font-family: var(--font); font-size: 14px; font-weight: 500; cursor: pointer; transition: opacity 0.15s; display: block; margin-bottom: 10px; }
 .btn-primary:hover { opacity: 0.88; }
-.btn-secondary {
-  width: 100%; padding: 11px; background: transparent; color: var(--text2);
-  border: 1px solid var(--border2); border-radius: var(--radius-sm); font-family: var(--font);
-  font-size: 14px; cursor: pointer; transition: all 0.15s;
-}
-.btn-secondary:hover { border-color: var(--border); color: var(--text); background: var(--surface2); }
-
-.note { font-size: 12px; color: var(--text3); line-height: 1.55; text-align: center; margin-top: 12px; }
-
-.divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
+.btn-secondary { width: 100%; padding: 11px; background: transparent; color: var(--text2); border: 1px solid var(--border2); border-radius: var(--radius-sm); font-family: var(--font); font-size: 14px; cursor: pointer; transition: all 0.15s; display: block; margin-bottom: 8px; }
+.btn-secondary:hover { color: var(--text); background: var(--surface2); }
+.btn-google { width: 100%; padding: 11px 16px; background: var(--surface2); color: var(--text); border: 1px solid var(--border2); border-radius: var(--radius-sm); font-family: var(--font); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.15s; margin-bottom: 8px; }
+.btn-google:hover { background: var(--surface); }
+.btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
+.note { font-size: 12px; color: var(--text3); line-height: 1.55; text-align: center; margin-top: 10px; }
+.status-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; }
+.badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-family: var(--mono); display: flex; align-items: center; gap: 5px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text3); }
+.badge.on { background: var(--accent-dim); color: var(--accent-light); border-color: var(--accent-border); }
+.badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.divider { display: flex; align-items: center; gap: 10px; margin: 14px 0; }
 .divider-line { flex: 1; height: 1px; background: var(--border); }
 .divider span { font-size: 12px; color: var(--text3); }
-
-/* GOOGLE SIGN-IN BUTTON */
-.btn-google {
-  width: 100%; padding: 11px 16px; background: var(--surface2); color: var(--text);
-  border: 1px solid var(--border2); border-radius: var(--radius-sm); font-family: var(--font);
-  font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  gap: 10px; transition: all 0.15s; margin-bottom: 10px;
-}
-.btn-google:hover { border-color: var(--border); background: var(--surface); }
-.btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
-
-/* STATUS BADGES */
-.status-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
-.badge {
-  font-size: 11px; padding: 4px 10px; border-radius: 20px;
-  font-family: var(--mono); display: flex; align-items: center; gap: 5px;
-}
-.badge.connected { background: var(--accent-dim); color: var(--accent-light); border: 1px solid var(--accent-border); }
-.badge.pending { background: var(--warn-dim); color: var(--warn); border: 1px solid var(--warn-border); }
-.badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-
-/* APP */
-#app {
-  display: none; flex-direction: column;
-  width: 100%; max-width: 680px;
-  height: calc(100vh - 32px); max-height: 820px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-  animation: fadeUp 0.35s ease both;
-}
-
-#header {
-  padding: 14px 20px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--surface2); flex-shrink: 0;
-}
+#app { display: none; flex-direction: column; width: 100%; max-width: 680px; height: calc(100vh - 32px); max-height: 820px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; animation: fadeUp 0.35s ease both; }
+#header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--surface2); flex-shrink: 0; }
 #header-left { display: flex; align-items: center; gap: 12px; }
-#av {
-  width: 34px; height: 34px; border-radius: 50%;
-  background: var(--accent-dim); border: 1px solid var(--accent-border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 500; color: var(--accent-light); flex-shrink: 0;
-}
+#av { width: 34px; height: 34px; border-radius: 50%; background: var(--accent-dim); border: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: var(--accent-light); flex-shrink: 0; }
 #hname { font-size: 14px; font-weight: 500; }
 #hsub { font-size: 12px; color: var(--text3); margin-top: 1px; }
 #pills { display: flex; gap: 6px; }
-.pill {
-  font-size: 11px; padding: 3px 9px; border-radius: 20px;
-  background: var(--accent-dim); color: var(--accent-light);
-  border: 1px solid var(--accent-border); font-family: var(--mono);
-}
+.pill { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-family: var(--mono); background: var(--accent-dim); color: var(--accent-light); border: 1px solid var(--accent-border); }
 .pill.off { background: var(--surface); color: var(--text3); border-color: var(--border); }
-
-#messages {
-  flex: 1; overflow-y: auto; padding: 20px;
-  display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth;
-}
+#messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; }
 #messages::-webkit-scrollbar { width: 4px; }
 #messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
-
 .row { display: flex; gap: 10px; align-items: flex-start; }
 .row.user { flex-direction: row-reverse; align-self: flex-end; max-width: 85%; }
 .row.ai { max-width: 90%; }
-.mav {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 500; flex-shrink: 0; margin-top: 2px;
-}
+.mav { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; margin-top: 2px; }
 .mav.ai { background: var(--accent-dim); color: var(--accent-light); border: 1px solid var(--accent-border); }
 .mav.user { background: var(--surface2); color: var(--text2); border: 1px solid var(--border2); }
-.bub {
-  padding: 11px 15px; border-radius: 16px;
-  font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
-}
+.bub { padding: 11px 15px; border-radius: 16px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
 .row.ai .bub { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-top-left-radius: 4px; }
 .row.user .bub { background: var(--accent); color: #fff; border-top-right-radius: 4px; }
 .ts { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-top: 4px; padding: 0 4px; }
 .row.user .ts { text-align: right; }
-
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.chip {
-  font-size: 12px; padding: 5px 11px; border-radius: 20px;
-  border: 1px solid var(--border2); background: var(--surface2); color: var(--text2);
-  cursor: pointer; transition: all 0.15s;
-}
+.chip { font-size: 12px; padding: 5px 11px; border-radius: 20px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text2); cursor: pointer; transition: all 0.15s; }
 .chip:hover { border-color: var(--accent-border); color: var(--accent-light); background: var(--accent-dim); }
-
 .typing { padding: 12px 15px; display: flex; gap: 5px; align-items: center; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--text3); animation: pulse 1.2s infinite; }
 .dot:nth-child(2) { animation-delay: 0.2s; }
 .dot:nth-child(3) { animation-delay: 0.4s; }
 @keyframes pulse { 0%,60%,100%{opacity:0.3;transform:scale(1)} 30%{opacity:1;transform:scale(1.3)} }
-
-#composer {
-  padding: 14px 16px; border-top: 1px solid var(--border);
-  display: flex; gap: 10px; align-items: flex-end;
-  background: var(--surface2); flex-shrink: 0;
-}
-#inp {
-  flex: 1; resize: none; background: var(--surface);
-  border: 1px solid var(--border2); border-radius: 12px;
-  padding: 10px 14px; font-family: var(--font); font-size: 14px; color: var(--text);
-  outline: none; max-height: 120px; overflow-y: auto; line-height: 1.5; transition: border-color 0.15s;
-}
-#inp:focus { border-color: var(--accent); }
-#inp::placeholder { color: var(--text3); }
-#send-btn {
-  width: 36px; height: 36px; border-radius: 50%; background: var(--accent);
-  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: opacity 0.15s, transform 0.1s;
-}
+#composer { padding: 14px 16px; border-top: 1px solid var(--border); display: flex; gap: 10px; align-items: flex-end; background: var(--surface2); flex-shrink: 0; }
+#msg-input { flex: 1; resize: none; background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; padding: 10px 14px; font-family: var(--font); font-size: 14px; color: var(--text); outline: none; max-height: 120px; overflow-y: auto; line-height: 1.5; transition: border-color 0.15s; }
+#msg-input:focus { border-color: var(--accent); }
+#msg-input::placeholder { color: var(--text3); }
+#send-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity 0.15s, transform 0.1s; }
 #send-btn:hover { opacity: 0.85; }
 #send-btn:active { transform: scale(0.93); }
 #send-btn svg { width: 15px; height: 15px; fill: white; }
-
-.link-btn { font-size: 12px; color: var(--text3); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: var(--font); transition: color 0.15s; }
+.link-btn { font-size: 12px; color: var(--text3); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: var(--font); }
 .link-btn:hover { color: var(--text2); }
-
-@media (max-width: 480px) {
-  body { padding: 0; }
-  #app { height: 100vh; max-height: 100vh; border-radius: 0; border: none; }
-}
+@media (max-width: 480px) { body { padding: 0; } #app { height: 100vh; max-height: 100vh; border-radius: 0; border: none; } }
 </style>
 </head>
 <body>
 
-<!-- SCREEN 1: API Key -->
-<div id="screen-key" class="screen">
+<div id="screen-key" class="screen" style="display:none;">
   <div class="logo">✦</div>
   <h1>Your personal assistant</h1>
-  <p>Enter your Anthropic API key to get started. Get one free at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+  <p class="sub">Enter your Anthropic API key to get started.<br>Get one at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
   <div class="field-label">Anthropic API key</div>
-  <input id="key-input" class="inp-field" type="password" placeholder="sk-ant-..." autocomplete="off" />
-  <button class="btn-primary" onclick="saveKey()">Continue</button>
+  <input id="key-input" class="inp" type="password" placeholder="sk-ant-..." autocomplete="off" />
+  <button class="btn-primary" id="key-btn">Continue</button>
   <p class="note">Stored locally in your browser. Never sent anywhere except Anthropic.</p>
 </div>
 
-<!-- SCREEN 2: Google Auth -->
 <div id="screen-google" class="screen" style="display:none;">
   <div class="logo">✦</div>
   <h1>Connect Google</h1>
-  <p>Sign in with Google so your assistant can read your Gmail and Calendar.</p>
-
-  <div class="status-row" id="status-row">
-    <div class="badge pending"><div class="badge-dot"></div>Personal</div>
-    <div class="badge pending"><div class="badge-dot"></div>Work (CZ)</div>
+  <p class="sub">Connect your accounts so your assistant can read Gmail and Calendar. Connect one or both, then launch.</p>
+  <div class="status-row">
+    <div class="badge" id="badge-personal"><div class="badge-dot"></div>Personal</div>
+    <div class="badge" id="badge-work"><div class="badge-dot"></div>Work (CZ)</div>
   </div>
-
-  <button class="btn-primary" onclick="launchApp()" style="margin-bottom:8px;">Launch assistant</button>
-
-  <button class="btn-google" onclick="signInWithGoogle('personal')">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-    </svg>
-    Connect personal Google (cjmitchell292@gmail.com)
+  <button class="btn-google" id="btn-personal">
+    <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+    Connect personal (cjmitchell292@gmail.com)
   </button>
-
-  <button class="btn-google" onclick="signInWithGoogle('work')" style="margin-top:2px;">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-    </svg>
-    Connect work Google (cj@campaignzero.org)
+  <button class="btn-google" id="btn-work">
+    <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+    Connect work (cj@campaignzero.org)
   </button>
-
-  <button class="btn-secondary" onclick="skipGoogle()" style="margin-top:8px;">Skip for now — use assistant without Google</button>
-  <p class="note">You can connect both accounts. Your assistant will pull from both calendars and inboxes.</p>
+  <div class="divider"><div class="divider-line"></div><span>then</span><div class="divider-line"></div></div>
+  <button class="btn-primary" id="launch-btn">Launch assistant</button>
+  <button class="btn-secondary" id="skip-btn">Skip — use without Google</button>
 </div>
 
-<!-- MAIN APP -->
 <div id="app">
   <div id="header">
     <div id="header-left">
       <div id="av">A</div>
       <div>
         <div id="hname">Your assistant</div>
-        <div id="hsub" style="font-size:12px;color:var(--text3);margin-top:1px;">Ready</div>
+        <div id="hsub">Ready</div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
       <div id="pills">
-        <div class="pill off" id="pill-gmail">Gmail</div>
-        <div class="pill off" id="pill-cal">Calendar</div>
+        <div class="pill off" id="pill-personal">Personal</div>
+        <div class="pill off" id="pill-work">Work</div>
       </div>
-      <button class="link-btn" onclick="signOut()">sign out</button>
+      <button class="link-btn" id="signout-btn">sign out</button>
     </div>
   </div>
   <div id="messages"></div>
   <div id="composer">
-    <textarea id="inp" rows="1" placeholder="What's going on..."></textarea>
-    <button id="send-btn" onclick="handleSend()">
+    <textarea id="msg-input" rows="1" placeholder="What's going on..."></textarea>
+    <button id="send-btn">
       <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
     </button>
   </div>
 </div>
 
-<!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" async></script>
-
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-const GOOGLE_CLIENT_ID = "887982151932-95rtd5jkk97ua175n9hjvc5gqg10uaoq.apps.googleusercontent.com";
-const SCOPES = "https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/calendar.readonly";
-const SYSTEM = `You are CJ's personal assistant. CJ is a contractor at Campaign Zero (criminal justice nonprofit), co-founder/CEO of KnoVo (civic tech startup targeting 2026 midterms, team: CJ, Dan the engineer, Rogan doing TikTok/research). CJ is a former college basketball player now living in Chicago who boxes, keeps a planted 14-gallon aquarium, and follows NCAA basketball closely.
+var CLIENT_ID = "887982151932-95rtd5jkk97ua175n9hjvc5gqg10uaoq.apps.googleusercontent.com";
+var SCOPES = "https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/calendar.readonly";
+var SYSTEM = "You are CJ's personal assistant. CJ is a contractor at Campaign Zero (criminal justice nonprofit, email cj@campaignzero.org), and co-founder/CEO of KnoVo (civic tech startup targeting 2026 midterms). CJ is a former college basketball player in Chicago who boxes, keeps a planted aquarium, and follows NCAA basketball. Current priorities: Cuyahoga Spring Break Series (wrapping up), KnoVo product build, Michael O.D. Brown Scholarship outreach, pickup basketball app idea. When Gmail or Calendar data is provided, use it for real specific answers. Tone: direct, warm, concise. Under 150 words unless more is needed.";
 
-Current priorities: wrapping up the Cuyahoga Spring Break Series (5-day speaker program at a juvenile detention center), KnoVo product build, Michael O.D. Brown Memorial Scholarship outreach (St. Louis-area high schools, deadline was March 27), and a side idea for a pickup basketball app in Chicago.
+var apiKey = "";
+var tokenPersonal = "";
+var tokenWork = "";
+var chatHistory = [];
+var isBusy = false;
 
-You have access to Gmail and Google Calendar data that will be injected into the user's messages when they ask about email or calendar. Use it to give real, actionable summaries.
-
-Tone: direct, warm, no fluff. You work FOR CJ. Be concise unless detail is asked for. Summarize email and calendar smartly — surface what matters most, skip noise. Keep responses under ~150 words unless more is needed. Use line breaks for readability.`;
-
-let API_KEY = localStorage.getItem("asst_key") || "";
-let googleToken = null;
-let googleTokenWork = null;
-let history = [];
-let busy = false;
-
-// --- ROUTING ---
-function route() {
-  if (!API_KEY) { show("screen-key"); return; }
-  const saved = sessionStorage.getItem("g_token");
-  const savedWork = sessionStorage.getItem("g_token_work");
-  if (saved || savedWork) {
-    if (saved) googleToken = saved;
-    if (savedWork) googleTokenWork = savedWork;
-    launchApp(); return;
+function showScreen(id) {
+  document.getElementById("screen-key").style.display = "none";
+  document.getElementById("screen-google").style.display = "none";
+  document.getElementById("app").style.display = "none";
+  if (id === "app") {
+    document.getElementById("app").style.display = "flex";
+  } else {
+    document.getElementById(id).style.display = "block";
   }
-  show("screen-google");
 }
 
-function show(id) {
-  ["screen-key","screen-google","app"].forEach(s => {
-    const el = document.getElementById(s);
-    if (el) el.style.display = s === "app" ? (s === id ? "flex" : "none") : (s === id ? "block" : "none");
-  });
-  if (id === "app") document.getElementById("app").style.display = "flex";
+function init() {
+  apiKey = localStorage.getItem("asst_key") || "";
+  tokenPersonal = sessionStorage.getItem("tok_personal") || "";
+  tokenWork = sessionStorage.getItem("tok_work") || "";
+  if (!apiKey) {
+    showScreen("screen-key");
+  } else if (tokenPersonal || tokenWork) {
+    launchApp();
+  } else {
+    showScreen("screen-google");
+  }
 }
 
-// --- KEY ---
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("key-input").addEventListener("keydown", e => { if (e.key === "Enter") saveKey(); });
-  route();
-});
-
-function saveKey() {
-  const val = document.getElementById("key-input").value.trim();
-  if (!val || val.length < 20) {
+document.getElementById("key-btn").addEventListener("click", function() {
+  var val = document.getElementById("key-input").value.trim();
+  if (!val || val.length < 10) {
     document.getElementById("key-input").style.borderColor = "#E24B4A";
     return;
   }
-  API_KEY = val;
+  apiKey = val;
   localStorage.setItem("asst_key", val);
-  show("screen-google");
-}
+  showScreen("screen-google");
+});
 
-// --- GOOGLE OAUTH ---
+document.getElementById("key-input").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") document.getElementById("key-btn").click();
+});
 
-function signInWithGoogle(which) {
-  const hint = which === 'work' ? 'cj@campaignzero.org' : 'cjmitchell292@gmail.com';
-  const client = google.accounts.oauth2.initTokenClient({
-    client_id: GOOGLE_CLIENT_ID,
+document.getElementById("btn-personal").addEventListener("click", function() {
+  doGoogleSignIn("personal");
+});
+
+document.getElementById("btn-work").addEventListener("click", function() {
+  doGoogleSignIn("work");
+});
+
+document.getElementById("launch-btn").addEventListener("click", launchApp);
+document.getElementById("skip-btn").addEventListener("click", launchApp);
+
+document.getElementById("signout-btn").addEventListener("click", function() {
+  sessionStorage.removeItem("tok_personal");
+  sessionStorage.removeItem("tok_work");
+  tokenPersonal = "";
+  tokenWork = "";
+  chatHistory = [];
+  document.getElementById("messages").innerHTML = "";
+  showScreen("screen-google");
+});
+
+document.getElementById("send-btn").addEventListener("click", handleSend);
+document.getElementById("msg-input").addEventListener("keydown", function(e) {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
+});
+document.getElementById("msg-input").addEventListener("input", function() {
+  this.style.height = "auto";
+  this.style.height = Math.min(this.scrollHeight, 120) + "px";
+});
+
+function doGoogleSignIn(which) {
+  var hint = which === "work" ? "cj@campaignzero.org" : "cjmitchell292@gmail.com";
+  var client = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
     scope: SCOPES,
     hint: hint,
-    prompt: 'select_account',
-    callback: (resp) => {
-      if (resp.error) { alert("Google sign-in failed: " + resp.error); return; }
-      if (which === 'work') {
-        googleTokenWork = resp.access_token;
-        sessionStorage.setItem("g_token_work", googleTokenWork);
-        updateBadge('work', true);
+    prompt: "select_account",
+    callback: function(resp) {
+      if (resp.error) { alert("Sign-in failed: " + resp.error); return; }
+      if (which === "work") {
+        tokenWork = resp.access_token;
+        sessionStorage.setItem("tok_work", tokenWork);
+        document.getElementById("badge-work").className = "badge on";
       } else {
-        googleToken = resp.access_token;
-        sessionStorage.setItem("g_token", googleToken);
-        updateBadge('personal', true);
+        tokenPersonal = resp.access_token;
+        sessionStorage.setItem("tok_personal", tokenPersonal);
+        document.getElementById("badge-personal").className = "badge on";
       }
     }
   });
   client.requestAccessToken();
 }
 
-function updateBadge(which, connected) {
-  const row = document.getElementById("status-row");
-  const badges = row.querySelectorAll(".badge");
-  const idx = which === 'personal' ? 0 : 1;
-  if (badges[idx]) {
-    badges[idx].className = "badge " + (connected ? "connected" : "pending");
-    badges[idx].innerHTML = `<div class="badge-dot"></div>${which === 'personal' ? 'Personal' : 'Work (CZ)'}`;
-  }
-}
-
-function skipGoogle() { launchApp(); }
-
-function signOut() {
-  sessionStorage.removeItem("g_token");
-  sessionStorage.removeItem("g_token_work");
-  googleToken = null;
-  googleTokenWork = null;
-  history = [];
-  document.getElementById("messages").innerHTML = "";
-  show("screen-google");
-}
-
-// --- LAUNCH APP ---
 function launchApp() {
-  document.getElementById("app").style.display = "flex";
-  ["screen-key","screen-google"].forEach(s => { document.getElementById(s).style.display = "none"; });
-
-  const hasPersonal = !!googleToken;
-  const hasWork = !!googleTokenWork;
-  if (hasPersonal || hasWork) {
-    document.getElementById("pill-gmail").classList.remove("off");
-    document.getElementById("pill-cal").classList.remove("off");
-    const parts = [];
-    if (hasPersonal) parts.push("personal");
-    if (hasWork) parts.push("work");
-    document.getElementById("hsub").textContent = parts.join(" + ") + " connected";
-  } else {
-    document.getElementById("pill-gmail").classList.add("off");
-    document.getElementById("pill-cal").classList.add("off");
-    document.getElementById("hsub").textContent = "No Google connection";
-  }
-
+  showScreen("app");
+  if (tokenPersonal) document.getElementById("pill-personal").classList.remove("off");
+  if (tokenWork) document.getElementById("pill-work").classList.remove("off");
+  var parts = [];
+  if (tokenPersonal) parts.push("personal");
+  if (tokenWork) parts.push("work");
+  document.getElementById("hsub").textContent = parts.length ? parts.join(" + ") + " connected" : "No Google connection";
   if (document.getElementById("messages").children.length === 0) addWelcome();
-
-  document.getElementById("inp").addEventListener("keydown", e => {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
-  });
-  document.getElementById("inp").addEventListener("input", () => {
-    const inp = document.getElementById("inp");
-    inp.style.height = "auto";
-    inp.style.height = Math.min(inp.scrollHeight, 120) + "px";
-  });
 }
-
-// --- GOOGLE API CALLS ---
-async function fetchGmailForToken(token, label) {
-  try {
-    const listRes = await fetch(
-      "https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=6&q=is:unread",
-      { headers: { Authorization: "Bearer " + token } }
-    );
-    const listData = await listRes.json();
-    if (!listData.messages) return label + ": No unread emails.";
-    const summaries = await Promise.all(listData.messages.slice(0, 5).map(async m => {
-      const msgRes = await fetch(
-        `https://www.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`,
-        { headers: { Authorization: "Bearer " + token } }
-      );
-      const msg = await msgRes.json();
-      const headers = {};
-      (msg.payload?.headers || []).forEach(h => { headers[h.name] = h.value; });
-      return `  ${headers.Subject || "(no subject)"} — from ${headers.From || "?"}`;
-    }));
-    return label + " unread:\n" + summaries.join("\n");
-  } catch(e) { return label + ": Could not fetch — " + e.message; }
-}
-
-async function fetchGmail() {
-  if (!googleToken && !googleTokenWork) return null;
-  const parts = [];
-  if (googleToken) parts.push(await fetchGmailForToken(googleToken, "Personal (Gmail)"));
-  if (googleTokenWork) parts.push(await fetchGmailForToken(googleTokenWork, "Work (Campaign Zero)"));
-  return parts.join("\n\n");
-}
-
-async function fetchCalendarForToken(token, label) {
-  try {
-    const now = new Date().toISOString();
-    const end = new Date(Date.now() + 7 * 86400000).toISOString();
-    const res = await fetch(
-      `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${now}&timeMax=${end}&maxResults=10&singleEvents=true&orderBy=startTime`,
-      { headers: { Authorization: "Bearer " + token } }
-    );
-    const data = await res.json();
-    if (!data.items || data.items.length === 0) return label + ": No upcoming events.";
-    const events = data.items.map(e => {
-      const start = e.start?.dateTime || e.start?.date || "";
-      const d = start ? new Date(start).toLocaleString([], {weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"2-digit"}) : "All day";
-      return `  ${d}: ${e.summary || "(no title)"}`;
-    }).join("\n");
-    return label + " calendar:\n" + events;
-  } catch(e) { return label + ": Could not fetch — " + e.message; }
-}
-
-async function fetchCalendar() {
-  if (!googleToken && !googleTokenWork) return null;
-  const parts = [];
-  if (googleToken) parts.push(await fetchCalendarForToken(googleToken, "Personal"));
-  if (googleTokenWork) parts.push(await fetchCalendarForToken(googleTokenWork, "Work (Campaign Zero)"));
-  return parts.join("\n\n");
-}
-
-// --- MESSAGES UI ---
-function now12() { return new Date().toLocaleTimeString([], { hour:"numeric", minute:"2-digit" }); }
 
 function addWelcome() {
-  const h = new Date().getHours();
-  const g = h < 12 ? "Good morning" : h < 17 ? "Hey" : "Evening";
-  const connected = !!googleToken;
-  addAI(`${g}, CJ — I'm ready.\n\n${connected ? "I've got access to your Gmail and Calendar. Ask me anything." : "I'm running without Google access right now — I can still help with tasks, thinking, and planning."}`, [
-    "What's on my calendar today?",
-    "Catch me up on email",
-    "What's most urgent right now?",
-    "Add a task for me"
-  ]);
+  var h = new Date().getHours();
+  var g = h < 12 ? "Good morning" : h < 17 ? "Hey" : "Evening";
+  var connected = tokenPersonal || tokenWork;
+  var accts = tokenPersonal && tokenWork ? "personal and work" : tokenPersonal ? "personal" : "work";
+  var body = connected
+    ? g + ", CJ — I'm ready.\n\nI've got access to your " + accts + " Google account. Ask me anything."
+    : g + ", CJ — I'm ready.\n\nRunning without Google right now. I can still help with tasks, thinking, and planning.";
+  addAiMsg(body, ["What's on my calendar today?", "Catch me up on email", "What's most urgent right now?", "Add a task for me"]);
 }
 
-function addAI(text, chips) {
-  const row = document.createElement("div");
-  row.className = "row ai";
-  const av = document.createElement("div"); av.className = "mav ai"; av.textContent = "A";
-  const wrap = document.createElement("div");
-  const bub = document.createElement("div"); bub.className = "bub"; bub.textContent = text;
+function timeStr() {
+  return new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+}
+
+function addAiMsg(text, chips) {
+  var msgs = document.getElementById("messages");
+  var row = document.createElement("div"); row.className = "row ai";
+  var av = document.createElement("div"); av.className = "mav ai"; av.textContent = "A";
+  var wrap = document.createElement("div");
+  var bub = document.createElement("div"); bub.className = "bub"; bub.textContent = text;
   wrap.appendChild(bub);
   if (chips) {
-    const chipRow = document.createElement("div"); chipRow.className = "chips";
-    chips.forEach(c => {
-      const el = document.createElement("div"); el.className = "chip"; el.textContent = c;
-      el.onclick = () => { document.getElementById("inp").value = c; handleSend(); };
-      chipRow.appendChild(el);
+    var cr = document.createElement("div"); cr.className = "chips";
+    chips.forEach(function(c) {
+      var el = document.createElement("div"); el.className = "chip"; el.textContent = c;
+      el.addEventListener("click", function() { document.getElementById("msg-input").value = c; handleSend(); });
+      cr.appendChild(el);
     });
-    wrap.appendChild(chipRow);
+    wrap.appendChild(cr);
   }
-  const ts = document.createElement("div"); ts.className = "ts"; ts.textContent = now12();
+  var ts = document.createElement("div"); ts.className = "ts"; ts.textContent = timeStr();
   wrap.appendChild(ts);
   row.appendChild(av); row.appendChild(wrap);
-  document.getElementById("messages").appendChild(row);
-  document.getElementById("messages").scrollTop = 99999;
-  return bub;
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
-function addUser(text) {
-  const row = document.createElement("div"); row.className = "row user";
-  const av = document.createElement("div"); av.className = "mav user"; av.textContent = "CJ";
-  const wrap = document.createElement("div");
-  const bub = document.createElement("div"); bub.className = "bub"; bub.textContent = text;
-  const ts = document.createElement("div"); ts.className = "ts"; ts.textContent = now12();
+function addUserMsg(text) {
+  var msgs = document.getElementById("messages");
+  var row = document.createElement("div"); row.className = "row user";
+  var av = document.createElement("div"); av.className = "mav user"; av.textContent = "CJ";
+  var wrap = document.createElement("div");
+  var bub = document.createElement("div"); bub.className = "bub"; bub.textContent = text;
+  var ts = document.createElement("div"); ts.className = "ts"; ts.textContent = timeStr();
   wrap.appendChild(bub); wrap.appendChild(ts);
   row.appendChild(av); row.appendChild(wrap);
-  document.getElementById("messages").appendChild(row);
-  document.getElementById("messages").scrollTop = 99999;
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
 function showTyping() {
-  const row = document.createElement("div"); row.className = "row ai"; row.id = "typing";
-  row.innerHTML = `<div class="mav ai">A</div><div class="bub typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
-  document.getElementById("messages").appendChild(row);
-  document.getElementById("messages").scrollTop = 99999;
+  var msgs = document.getElementById("messages");
+  var row = document.createElement("div"); row.className = "row ai"; row.id = "typing-row";
+  row.innerHTML = '<div class="mav ai">A</div><div class="bub typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
-function hideTyping() { const t = document.getElementById("typing"); if (t) t.remove(); }
+function hideTyping() {
+  var t = document.getElementById("typing-row");
+  if (t) t.remove();
+}
 
-// --- SEND ---
+async function getGmailData(token, label) {
+  try {
+    var r = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=6&q=is:unread", { headers: { Authorization: "Bearer " + token } });
+    var d = await r.json();
+    if (!d.messages || d.messages.length === 0) return label + ": no unread emails.";
+    var items = await Promise.all(d.messages.slice(0, 5).map(async function(m) {
+      var mr = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages/" + m.id + "?format=metadata&metadataHeaders=From&metadataHeaders=Subject", { headers: { Authorization: "Bearer " + token } });
+      var md = await mr.json();
+      var h = {};
+      ((md.payload && md.payload.headers) || []).forEach(function(x) { h[x.name] = x.value; });
+      return "  - " + (h.Subject || "(no subject)") + " from " + (h.From || "?");
+    }));
+    return label + " unread:\n" + items.join("\n");
+  } catch(e) { return label + ": couldn't fetch email."; }
+}
+
+async function getCalData(token, label) {
+  try {
+    var now = new Date().toISOString();
+    var end = new Date(Date.now() + 7 * 86400000).toISOString();
+    var r = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=" + encodeURIComponent(now) + "&timeMax=" + encodeURIComponent(end) + "&maxResults=10&singleEvents=true&orderBy=startTime", { headers: { Authorization: "Bearer " + token } });
+    var d = await r.json();
+    if (!d.items || d.items.length === 0) return label + " calendar: no events this week.";
+    var items = d.items.map(function(e) {
+      var start = (e.start && (e.start.dateTime || e.start.date)) || "";
+      var ds = start ? new Date(start).toLocaleString([], {weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"2-digit"}) : "All day";
+      return "  - " + ds + ": " + (e.summary || "(no title)");
+    });
+    return label + " calendar:\n" + items.join("\n");
+  } catch(e) { return label + ": couldn't fetch calendar."; }
+}
+
 async function handleSend() {
-  const inp = document.getElementById("inp");
-  const text = inp.value.trim();
-  if (!text || busy) return;
-  busy = true;
-  inp.value = ""; inp.style.height = "auto";
-
-  addUser(text);
-  history.push({ role: "user", content: text });
+  var input = document.getElementById("msg-input");
+  var text = input.value.trim();
+  if (!text || isBusy) return;
+  isBusy = true;
+  input.value = ""; input.style.height = "auto";
+  addUserMsg(text);
+  chatHistory.push({ role: "user", content: text });
   showTyping();
 
-  // Check if message is about email or calendar — if so, fetch real data
-  const wantsEmail = /email|gmail|inbox|unread|message/i.test(text);
-  const wantsCal = /calendar|schedule|event|today|tomorrow|week|meeting|upcoming/i.test(text);
-
-  let contextBlocks = [];
-  if (wantsEmail && googleToken) {
-    const emailData = await fetchGmail();
-    if (emailData) contextBlocks.push("CURRENT UNREAD EMAILS:\n" + emailData);
+  var wantsEmail = /email|gmail|inbox|unread|message/i.test(text);
+  var wantsCal = /calendar|schedule|event|today|tomorrow|week|meeting|upcoming/i.test(text);
+  var contextParts = [];
+  if (wantsEmail) {
+    if (tokenPersonal) contextParts.push(await getGmailData(tokenPersonal, "Personal Gmail"));
+    if (tokenWork) contextParts.push(await getGmailData(tokenWork, "Work Gmail (CZ)"));
   }
-  if (wantsCal && googleToken) {
-    const calData = await fetchCalendar();
-    if (calData) contextBlocks.push("UPCOMING CALENDAR EVENTS (next 7 days):\n" + calData);
+  if (wantsCal) {
+    if (tokenPersonal) contextParts.push(await getCalData(tokenPersonal, "Personal"));
+    if (tokenWork) contextParts.push(await getCalData(tokenWork, "Work (CZ)"));
   }
 
-  // Build messages array — inject context into last user message if we have data
-  let messagesForAPI = [...history];
-  if (contextBlocks.length > 0) {
-    const contextStr = contextBlocks.join("\n\n");
-    messagesForAPI[messagesForAPI.length - 1] = {
-      role: "user",
-      content: text + "\n\n[Live data fetched for you]\n" + contextStr
-    };
+  var messages = chatHistory.slice();
+  if (contextParts.length > 0) {
+    messages[messages.length - 1] = { role: "user", content: text + "\n\n[Live data]\n" + contextParts.join("\n\n") };
   }
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    var res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": API_KEY,
-        "anthropic-version": "2023-06-01",
-        "anthropic-dangerous-direct-browser-calls": "true"
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        system: SYSTEM,
-        messages: messagesForAPI
-      })
+      headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-calls": "true" },
+      body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, system: SYSTEM, messages: messages })
     });
-
-    const data = await res.json();
+    var data = await res.json();
     hideTyping();
-
     if (data.error) {
-      addAI("API error: " + data.error.message);
+      addAiMsg("API error: " + data.error.message);
     } else {
-      const reply = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("\n").trim();
-      if (reply) {
-        addAI(reply);
-        history.push({ role: "assistant", content: reply });
-      }
+      var reply = (data.content || []).filter(function(b) { return b.type === "text"; }).map(function(b) { return b.text; }).join("\n").trim();
+      if (reply) { addAiMsg(reply); chatHistory.push({ role: "assistant", content: reply }); }
     }
-  } catch(err) {
+  } catch(e) {
     hideTyping();
-    addAI("Couldn't reach the API. Check your connection and try again.");
+    addAiMsg("Couldn't reach the API. Check your connection and try again.");
   }
-
-  busy = false;
+  isBusy = false;
 }
+
+init();
 </script>
 </body>
 </html>
