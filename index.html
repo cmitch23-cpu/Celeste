@@ -217,22 +217,34 @@ body { display: flex; flex-direction: column; align-items: center; justify-conte
   <p>Sign in with Google so your assistant can read your Gmail and Calendar.</p>
 
   <div class="status-row" id="status-row">
-    <div class="badge pending"><div class="badge-dot"></div>Gmail</div>
-    <div class="badge pending"><div class="badge-dot"></div>Calendar</div>
+    <div class="badge pending"><div class="badge-dot"></div>Personal</div>
+    <div class="badge pending"><div class="badge-dot"></div>Work (CZ)</div>
   </div>
 
-  <button class="btn-google" onclick="signInWithGoogle()">
+  <button class="btn-primary" onclick="launchApp()" style="margin-bottom:8px;">Launch assistant</button>
+
+  <button class="btn-google" onclick="signInWithGoogle('personal')">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
       <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
       <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
       <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
     </svg>
-    Sign in with Google
+    Connect personal Google (cjmitchell292@gmail.com)
   </button>
 
-  <button class="btn-secondary" onclick="skipGoogle()">Skip for now — use assistant without Google</button>
-  <p class="note">You can always connect Google later by refreshing and going through setup again.</p>
+  <button class="btn-google" onclick="signInWithGoogle('work')" style="margin-top:2px;">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Connect work Google (cj@campaignzero.org)
+  </button>
+
+  <button class="btn-secondary" onclick="skipGoogle()" style="margin-top:8px;">Skip for now — use assistant without Google</button>
+  <p class="note">You can connect both accounts. Your assistant will pull from both calendars and inboxes.</p>
 </div>
 
 <!-- MAIN APP -->
@@ -278,6 +290,7 @@ Tone: direct, warm, no fluff. You work FOR CJ. Be concise unless detail is asked
 
 let API_KEY = localStorage.getItem("asst_key") || "";
 let googleToken = null;
+let googleTokenWork = null;
 let history = [];
 let busy = false;
 
@@ -285,7 +298,12 @@ let busy = false;
 function route() {
   if (!API_KEY) { show("screen-key"); return; }
   const saved = sessionStorage.getItem("g_token");
-  if (saved) { googleToken = saved; launchApp(); return; }
+  const savedWork = sessionStorage.getItem("g_token_work");
+  if (saved || savedWork) {
+    if (saved) googleToken = saved;
+    if (savedWork) googleTokenWork = savedWork;
+    launchApp(); return;
+  }
   show("screen-google");
 }
 
@@ -315,25 +333,48 @@ function saveKey() {
 }
 
 // --- GOOGLE OAUTH ---
-function signInWithGoogle() {
+let googleTokenWork = null;
+
+function signInWithGoogle(which) {
+  const hint = which === 'work' ? 'cj@campaignzero.org' : 'cjmitchell292@gmail.com';
   const client = google.accounts.oauth2.initTokenClient({
     client_id: GOOGLE_CLIENT_ID,
     scope: SCOPES,
+    hint: hint,
+    prompt: 'select_account',
     callback: (resp) => {
       if (resp.error) { alert("Google sign-in failed: " + resp.error); return; }
-      googleToken = resp.access_token;
-      sessionStorage.setItem("g_token", googleToken);
-      launchApp();
+      if (which === 'work') {
+        googleTokenWork = resp.access_token;
+        sessionStorage.setItem("g_token_work", googleTokenWork);
+        updateBadge('work', true);
+      } else {
+        googleToken = resp.access_token;
+        sessionStorage.setItem("g_token", googleToken);
+        updateBadge('personal', true);
+      }
     }
   });
   client.requestAccessToken();
+}
+
+function updateBadge(which, connected) {
+  const row = document.getElementById("status-row");
+  const badges = row.querySelectorAll(".badge");
+  const idx = which === 'personal' ? 0 : 1;
+  if (badges[idx]) {
+    badges[idx].className = "badge " + (connected ? "connected" : "pending");
+    badges[idx].innerHTML = `<div class="badge-dot"></div>${which === 'personal' ? 'Personal' : 'Work (CZ)'}`;
+  }
 }
 
 function skipGoogle() { launchApp(); }
 
 function signOut() {
   sessionStorage.removeItem("g_token");
+  sessionStorage.removeItem("g_token_work");
   googleToken = null;
+  googleTokenWork = null;
   history = [];
   document.getElementById("messages").innerHTML = "";
   show("screen-google");
@@ -344,11 +385,18 @@ function launchApp() {
   document.getElementById("app").style.display = "flex";
   ["screen-key","screen-google"].forEach(s => { document.getElementById(s).style.display = "none"; });
 
-  if (googleToken) {
+  const hasPersonal = !!googleToken;
+  const hasWork = !!googleTokenWork;
+  if (hasPersonal || hasWork) {
     document.getElementById("pill-gmail").classList.remove("off");
     document.getElementById("pill-cal").classList.remove("off");
-    document.getElementById("hsub").textContent = "Gmail & Calendar connected";
+    const parts = [];
+    if (hasPersonal) parts.push("personal");
+    if (hasWork) parts.push("work");
+    document.getElementById("hsub").textContent = parts.join(" + ") + " connected";
   } else {
+    document.getElementById("pill-gmail").classList.add("off");
+    document.getElementById("pill-cal").classList.add("off");
     document.getElementById("hsub").textContent = "No Google connection";
   }
 
@@ -365,47 +413,61 @@ function launchApp() {
 }
 
 // --- GOOGLE API CALLS ---
-async function fetchGmail() {
-  if (!googleToken) return null;
+async function fetchGmailForToken(token, label) {
   try {
     const listRes = await fetch(
-      "https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=10&q=is:unread",
-      { headers: { Authorization: "Bearer " + googleToken } }
+      "https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=6&q=is:unread",
+      { headers: { Authorization: "Bearer " + token } }
     );
     const listData = await listRes.json();
-    if (!listData.messages) return "No unread emails.";
-
-    const summaries = await Promise.all(listData.messages.slice(0, 8).map(async m => {
+    if (!listData.messages) return label + ": No unread emails.";
+    const summaries = await Promise.all(listData.messages.slice(0, 5).map(async m => {
       const msgRes = await fetch(
         `https://www.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`,
-        { headers: { Authorization: "Bearer " + googleToken } }
+        { headers: { Authorization: "Bearer " + token } }
       );
       const msg = await msgRes.json();
       const headers = {};
       (msg.payload?.headers || []).forEach(h => { headers[h.name] = h.value; });
-      return `From: ${headers.From || "?"} | Subject: ${headers.Subject || "(no subject)"} | ${headers.Date || ""}`;
+      return `  ${headers.Subject || "(no subject)"} — from ${headers.From || "?"}`;
     }));
-    return summaries.join("\n");
-  } catch(e) { return "Could not fetch Gmail: " + e.message; }
+    return label + " unread:\n" + summaries.join("\n");
+  } catch(e) { return label + ": Could not fetch — " + e.message; }
 }
 
-async function fetchCalendar() {
-  if (!googleToken) return null;
+async function fetchGmail() {
+  if (!googleToken && !googleTokenWork) return null;
+  const parts = [];
+  if (googleToken) parts.push(await fetchGmailForToken(googleToken, "Personal (Gmail)"));
+  if (googleTokenWork) parts.push(await fetchGmailForToken(googleTokenWork, "Work (Campaign Zero)"));
+  return parts.join("\n\n");
+}
+
+async function fetchCalendarForToken(token, label) {
   try {
     const now = new Date().toISOString();
     const end = new Date(Date.now() + 7 * 86400000).toISOString();
     const res = await fetch(
-      `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${now}&timeMax=${end}&maxResults=15&singleEvents=true&orderBy=startTime`,
-      { headers: { Authorization: "Bearer " + googleToken } }
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${now}&timeMax=${end}&maxResults=10&singleEvents=true&orderBy=startTime`,
+      { headers: { Authorization: "Bearer " + token } }
     );
     const data = await res.json();
-    if (!data.items || data.items.length === 0) return "No upcoming events in the next 7 days.";
-    return data.items.map(e => {
+    if (!data.items || data.items.length === 0) return label + ": No upcoming events.";
+    const events = data.items.map(e => {
       const start = e.start?.dateTime || e.start?.date || "";
       const d = start ? new Date(start).toLocaleString([], {weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"2-digit"}) : "All day";
-      return `${d}: ${e.summary || "(no title)"}`;
+      return `  ${d}: ${e.summary || "(no title)"}`;
     }).join("\n");
-  } catch(e) { return "Could not fetch Calendar: " + e.message; }
+    return label + " calendar:\n" + events;
+  } catch(e) { return label + ": Could not fetch — " + e.message; }
+}
+
+async function fetchCalendar() {
+  if (!googleToken && !googleTokenWork) return null;
+  const parts = [];
+  if (googleToken) parts.push(await fetchCalendarForToken(googleToken, "Personal"));
+  if (googleTokenWork) parts.push(await fetchCalendarForToken(googleTokenWork, "Work (Campaign Zero)"));
+  return parts.join("\n\n");
 }
 
 // --- MESSAGES UI ---
