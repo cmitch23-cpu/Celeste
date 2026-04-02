@@ -249,12 +249,12 @@ textarea.ob-inp { resize: none; line-height: 1.55; }
 
 #sv-btn {
   width: 100%;
-  padding: 10px 0;
+  padding: 12px 0;
   background: var(--s2);
   border: none;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  color: var(--text2);
+  border-top: 1px solid var(--border2);
+  border-bottom: 1px solid var(--border2);
+  color: var(--accent-l);
   font-family: var(--font);
   font-size: 13px;
   font-weight: 500;
@@ -265,16 +265,16 @@ textarea.ob-inp { resize: none; line-height: 1.55; }
   gap: 8px;
   transition: all 0.2s;
   flex-shrink: 0;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 #sv-btn:hover {
-  background: var(--accent-dim);
-  color: var(--accent-l);
-  border-color: var(--accent-b);
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
 }
 #sv-btn .sv-btn-icon {
   font-size: 12px;
-  color: var(--accent-l);
 }
 
 /* ── SIMPLE VIEW ── */
@@ -516,8 +516,8 @@ textarea.ob-inp { resize: none; line-height: 1.55; }
     </div>
     <div class="tb-right">
       <div class="mode-toggle">
-        <button class="mode-btn active-p" id="mode-p">Personal</button>
-        <button class="mode-btn" id="mode-w">Work</button>
+        <button class="mode-btn active-p" id="mode-p">Account 1</button>
+        <button class="mode-btn" id="mode-w">Account 2</button>
       </div>
       <div class="cal-filter">
         <button class="cf-btn active" data-view="week">Week</button>
@@ -609,6 +609,8 @@ function saveAll() {
     localStorage.setItem("celeste_profile", JSON.stringify(profile));
     localStorage.setItem("celeste_key", apiKey);
     localStorage.setItem("celeste_tasks", JSON.stringify({p:ws.p.tasks,w:ws.w.tasks}));
+    if (tokP) localStorage.setItem("tok_p", tokP);
+    if (tokW) localStorage.setItem("tok_w", tokW);
   } catch(e) {}
 }
 function saveSeenIds() { try { localStorage.setItem("celeste_seen", JSON.stringify([...seenEmailIds].slice(-200))); } catch(e){} }
@@ -703,7 +705,6 @@ function finishOnboarding() {
 
 // ── INIT ──
 function init() {
-  // Check if already set up
   var savedProfile = localStorage.getItem("celeste_profile");
   var savedKey = localStorage.getItem("celeste_key");
   if (savedProfile && savedKey) {
@@ -711,15 +712,20 @@ function init() {
     apiKey = savedKey;
     tokP = localStorage.getItem("tok_p") || "";
     tokW = localStorage.getItem("tok_w") || "";
-    try { var t = JSON.parse(localStorage.getItem("celeste_tasks")||"{}"); ws.p.tasks = t.p||[]; ws.w.tasks = t.w||[]; } catch(e){}
+    try {
+      var t = JSON.parse(localStorage.getItem("celeste_tasks") || "{}");
+      ws.p.tasks = t.p || [];
+      ws.w.tasks = t.w || [];
+    } catch(e) {}
     document.getElementById("onboarding").style.display = "none";
     if (!tokP && !tokW) {
       showReauth();
     } else {
       launchDashboard();
     }
+    return;
   }
-  // Otherwise onboarding shows by default
+  // New user — show onboarding
 }
 
 function showReauth() {
@@ -739,7 +745,7 @@ function showReauth() {
 // ── SIGN OUT ──
 document.getElementById("so-btn").addEventListener("click", function() {
   if (!confirm("Sign out and clear your profile?")) return;
-  localStorage.clear(); sessionStorage.clear();
+  localStorage.clear();
   location.reload();
 });
 
