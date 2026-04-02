@@ -249,29 +249,32 @@ textarea.ob-inp { resize: none; line-height: 1.55; }
 
 #sv-btn {
   width: 100%;
-  padding: 9px 0;
-  background: transparent;
+  padding: 10px 0;
+  background: var(--s2);
   border: none;
+  border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  color: var(--text3);
+  color: var(--text2);
   font-family: var(--font);
   font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 8px;
   transition: all 0.2s;
   flex-shrink: 0;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
 }
 #sv-btn:hover {
   background: var(--accent-dim);
   color: var(--accent-l);
+  border-color: var(--accent-b);
 }
 #sv-btn .sv-btn-icon {
-  font-size: 11px;
-  opacity: 0.6;
+  font-size: 12px;
+  color: var(--accent-l);
 }
 
 /* ── SIMPLE VIEW ── */
@@ -1315,6 +1318,28 @@ async function completeSvTask() {
     if (why) why.style.opacity = "1";
   }, 220);
 }
+
+// ── DELEGATED CLICK HANDLER (always works regardless of DOM timing) ──
+document.addEventListener("click", function(e) {
+  var t = e.target;
+  while (t && t !== document) {
+    if (t.id === "sv-btn") { openSimpleView(); return; }
+    if (t.id === "sv-exit-btn") { closeSimpleView(); return; }
+    if (t.id === "sv-done-btn") { completeSvTask(); return; }
+    t = t.parentNode;
+  }
+});
+
+// ── DELEGATED CLICK HANDLER ──
+document.addEventListener("click", function(e) {
+  var t = e.target;
+  while (t && t !== document) {
+    if (t.id === "sv-btn") { openSimpleView(); return; }
+    if (t.id === "sv-exit-btn") { closeSimpleView(); return; }
+    if (t.id === "sv-done-btn") { completeSvTask(); return; }
+    t = t.parentNode;
+  }
+});
 
 attachOnboardingListeners();
 init();
